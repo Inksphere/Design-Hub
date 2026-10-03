@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Portal — Union Design Hub</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation (Strict Left Aligned) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-logo-mark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+              <path d="M3 9h18"></path>
+              <path d="M9 21V9"></path>
+            </svg>
+          </div>
+          <div class="brand-text-block">
+            <span class="brand-title">UNION DESIGN HUB</span>
+            <span class="brand-subtitle">User Portal</span>
+          </div>
+        </div>
+        <button class="mobile-toggle" onclick="toggleSidebar()">&times;</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="tab-dashboard" onclick="switchTab('tab-dashboard')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span class="nav-text">Dashboard</span>
+        </button>
+        <button class="nav-item" data-tab="tab-new-poster" onclick="switchTab('tab-new-poster')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="nav-text">New Request</span>
+        </button>
+        <button class="nav-item" data-tab="tab-my-requests" onclick="switchTab('tab-my-requests')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+          <span class="nav-text">My Requests</span>
+        </button>
+        <button class="nav-item" data-tab="tab-notifications" onclick="switchTab('tab-notifications')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="nav-text">Notifications</span>
+          <span id="badge-unread-count" class="badge-pill" style="display:none; background: var(--accent-red); color:#fff;">0</span>
+        </button>
+
+        <div class="nav-section-title">ACCOUNT</div>
+        <button class="nav-item" data-tab="tab-profile" onclick="switchTab('tab-profile')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span class="nav-text">Profile</span>
+        </button>
+        <button class="nav-item" onclick="openModal('change-password-modal')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span class="nav-text">Change Password</span>
+        </button>
+        <button class="nav-item" onclick="handleSignOut()" style="color: var(--accent-red);">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span class="nav-text">Sign Out</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar-initials" id="user-display-avatar">U</div>
+          <div class="user-profile-info">
+            <div class="user-profile-name" id="user-display-name">Loading...</div>
+            <div class="user-profile-role">
+              <span id="user-display-role">USER</span>
+              <span id="user-display-username" style="color:var(--text-light); font-size:0.7rem;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="mobile-toggle btn-icon" onclick="toggleSidebar()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="breadcrumb-label">Portal</span>
+              <span class="breadcrumb-separator">/</span>
+              <h2 class="page-title-text" id="page-heading">Dashboard</h2>
+            </div>
+          </div>
+        </div>
+        <div class="top-bar-right">
+          <button class="btn btn-primary btn-sm" onclick="switchTab('tab-new-poster')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            New Request
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- 1. DASHBOARD TAB -->
+        <section id="tab-dashboard" class="tab-pane active">
+          <!-- Statistics Cards (Part 7) -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">My Requests</div>
+              <div class="stat-value" id="stat-total-requests">0</div>
+              <div class="stat-subtext">Total submitted</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Pending</div>
+              <div class="stat-value" id="stat-pending-requests">0</div>
+              <div class="stat-subtext">Under review / Queue</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">In Progress</div>
+              <div class="stat-value" id="stat-progress-requests">0</div>
+              <div class="stat-subtext">Assigned & Designing</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Uploaded</div>
+              <div class="stat-value" id="stat-uploaded-requests">0</div>
+              <div class="stat-subtext">Drafts & Proofs</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Revision Required</div>
+              <div class="stat-value" id="stat-revision-requests">0</div>
+              <div class="stat-subtext">Changes pending</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Final</div>
+              <div class="stat-value" id="stat-completed-requests">0</div>
+              <div class="stat-subtext">Approved & Finished</div>
+            </div>
+          </div>
+
+          <!-- Committee & Assigned Designer Banner -->
+          <div class="card" style="background: #ffffff; border-left: 4px solid var(--primary); margin-bottom: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">Assigned Sub-Committee</span>
+                <h3 style="font-size: 1.15rem; margin-top: 2px;" id="dash-banner-committee">Loading...</h3>
+              </div>
+              <div>
+                <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">Default Wing Designer</span>
+                <div style="font-weight: 600; font-size: 1rem; color: var(--text-main); margin-top: 2px;" id="dash-banner-designer">Automatic Routing</div>
+              </div>
+              <div>
+                <button class="btn btn-secondary btn-sm" onclick="switchTab('tab-new-poster')">
+                  Create Request for this Wing &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Requests Table -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Poster Requests</h3>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('tab-my-requests')">View All Requests</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="recent-requests-table">
+                <thead>
+                  <tr>
+                    <th>Poster ID</th>
+                    <th>Wing</th>
+                    <th>Type</th>
+                    <th>Main Heading</th>
+                    <th>Deadline</th>
+                    <th>Designer</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-requests-tbody">
+                  <tr><td colspan="8" class="empty-state">Loading your requests...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. NEW POSTER REQUEST TAB (PART 25, 28, 33) -->
+        <section id="tab-new-poster" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 880px; margin: 0 auto;">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Create Poster Request</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+                  Automatic designer assignment and Google Drive file archiving are active.
+                </p>
+              </div>
+            </div>
+
+            <form id="new-poster-form" style="padding-top: 0.5rem;">
+              <!-- Locked Sub-Committee & Assigned Designer Display (Part 25) -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; background: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label>Sub-Committee (Locked to Your Account)</label>
+                  <input type="text" id="post-committee-locked" class="form-control form-control-readonly" readonly />
+                  <div class="form-hint">Determined by your user account credentials.</div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label>Assigned Designer</label>
+                  <input type="text" id="post-designer-locked" class="form-control form-control-readonly" value="Assigned by Admin" readonly />
+                  <div class="form-hint">Admin will assign an available designer upon review.</div>
+                </div>
+              </div>
+
+              <!-- Poster Type & Priority -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                  <label for="post-type">Poster Type <span class="required">*</span></label>
+                  <select id="post-type" class="form-control" required>
+                    <option value="Main Poster">Main Poster</option>
+                    <option value="Poster">Poster</option>
+                    <option value="Sub Poster">Sub Poster</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="post-priority">Priority <span class="required">*</span></label>
+                  <select id="post-priority" class="form-control" required>
+                    <option value="Normal">Normal</option>
+                    <option value="Urgent">Urgent</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="post-main-heading">Main Heading <span class="required">*</span></label>
+                <input type="text" id="post-main-heading" class="form-control" placeholder="e.g. National Symposium on Classical Arabic Literature" required />
+              </div>
+
+              <div class="form-group">
+                <label for="post-sub-heading">Sub Heading</label>
+                <input type="text" id="post-sub-heading" class="form-control" placeholder="e.g. Exploring Poetic Heritage and Linguistic Aesthetics" />
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                  <label for="post-date">Event Date <span class="required">*</span></label>
+                  <input type="date" id="post-date" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="post-time">Event Time <span class="required">*</span></label>
+                  <input type="time" id="post-time" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label for="post-deadline">Design Deadline <span class="required">*</span></label>
+                  <input type="date" id="post-deadline" class="form-control" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="post-venue">Venue <span class="required">*</span></label>
+                <input type="text" id="post-venue" class="form-control" placeholder="e.g. University Grand Auditorium, East Wing" required />
+              </div>
+
+              <!-- Collaboration Multi-select (Part 27 & 28) -->
+              <div style="margin: 1.25rem 0; padding: 1.1rem; background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <label style="font-weight: 700; display: block; margin-bottom: 0.35rem;">Collaboration (Optional Co-Branding)</label>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                  Select any co-hosting Sub-Committees or Class Unions participating in this event.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.35rem;">Other Sub-Committees</label>
+                    <div class="checkbox-grid" id="collab-subcommittees-grid">
+                      <div style="font-size: 0.8rem; color: var(--text-muted); padding: 0.5rem;">Loading sub-committees...</div>
+                    </div>
+                  </div>
+                  <div>
+                    <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.35rem;">Class Unions</label>
+                    <div class="checkbox-grid" id="collab-classunions-grid">
+                      <div style="font-size: 0.8rem; color: var(--text-muted); padding: 0.5rem;">Loading class unions...</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="post-description">Event Description</label>
+                <textarea id="post-description" class="form-control" rows="3" placeholder="Brief event synopsis, keynote speakers, patron names..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="post-special-instructions">Special Instructions for Designer</label>
+                <textarea id="post-special-instructions" class="form-control" rows="2" placeholder="Color palette desires, emblem placements, typographic tones..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="post-reference-file">Reference File (Stored in Google Drive: Reference/Ref_XX)</label>
+                <input type="file" id="post-reference-file" class="form-control" accept="image/*,.pdf,.doc,.docx" />
+                <div class="form-hint">Reference files are automatically named (Ref_01, Ref_02...) and stored in Google Drive.</div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <button type="reset" class="btn btn-secondary">Clear Fields</button>
+                <button type="submit" id="btn-submit-poster" class="btn btn-primary">
+                  Submit Poster Request
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- 3. MY REQUESTS TAB -->
+        <section id="tab-my-requests" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="toolbar">
+              <div class="search-box">
+                <input type="text" id="requests-search" class="form-control" placeholder="Search heading, poster ID, or wing..." onkeyup="filterRequestsList()" />
+              </div>
+              <div class="filter-group">
+                <select id="filter-status" class="form-control" onchange="filterRequestsList()">
+                  <option value="">All Statuses</option>
+                  <option value="Submitted">Submitted</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Assigned">Assigned</option>
+                  <option value="Designing">Designing</option>
+                  <option value="Poster Uploaded">Poster Uploaded</option>
+                  <option value="Revision Required">Revision Required</option>
+                  <option value="Final">Final</option>
+                  <option value="Completed">Completed</option>
+                </select>
+                <select id="filter-priority" class="form-control" onchange="filterRequestsList()">
+                  <option value="">All Priorities</option>
+                  <option value="Normal">Normal</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table" id="all-requests-table">
+                <thead>
+                  <tr>
+                    <th>Poster ID</th>
+                    <th>Wing</th>
+                    <th>Type</th>
+                    <th>Heading</th>
+                    <th>Event Date</th>
+                    <th>Deadline</th>
+                    <th>Designer</th>
+                    <th>Status</th>
+                    <th>Drive File</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="all-requests-tbody">
+                  <tr><td colspan="10" class="empty-state">Loading your poster requests...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. NOTIFICATIONS TAB -->
+        <section id="tab-notifications" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 800px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">Activity Notifications</h3>
+            </div>
+            <div id="notifications-list" style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <div class="empty-state">No notifications yet.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. PROFILE TAB -->
+        <section id="tab-profile" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 640px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">Sub-Committee Account Profile</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem;">
+              <div><strong>Username:</strong> <span id="prof-username">—</span></div>
+              <div><strong>Sub-Committee:</strong> <span id="prof-committee">—</span></div>
+              <div><strong>Chairman:</strong> <span id="prof-chairman">—</span></div>
+              <div><strong>Convenor:</strong> <span id="prof-convenor">—</span></div>
+              <div><strong>Primary Email:</strong> <span id="prof-email1">—</span></div>
+              <div><strong>Secondary Email:</strong> <span id="prof-email2">—</span></div>
+              <div><strong>Account Role:</strong> <span class="badge badge-role">User</span></div>
+              <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <button type="button" class="btn btn-secondary" onclick="openModal('change-password-modal')">Change Password</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- REQUEST DETAILS & MEDIA PREVIEW MODAL (PARTS 38 & 39) -->
+  <div class="modal-backdrop" id="request-details-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <h3 class="modal-title" id="mdl-req-title">Poster Details</h3>
+            <span id="mdl-req-lang-badge"></span>
+          </div>
+          <span style="font-size: 0.78rem; color: var(--text-muted);" id="mdl-req-id">REQ-0000</span>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('request-details-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Left: Information & Workflow Timeline -->
+          <div>
+            <div style="margin-bottom: 0.75rem;">
+              <span id="mdl-req-status-badge"></span>
+              <span id="mdl-req-priority-badge" style="margin-left: 0.35rem;"></span>
+            </div>
+            <h4 id="mdl-req-heading" style="font-size: 1.15rem; margin-bottom: 0.25rem;"></h4>
+            <div id="mdl-req-subheading" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;"></div>
+
+            <!-- Metadata Box -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.82rem; margin-bottom: 1rem; background: var(--bg-subtle); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+              <div><strong>Wing Code:</strong> <span id="mdl-req-wing-code" style="font-family:monospace; font-weight:700;"></span></div>
+              <div><strong>Type:</strong> <span id="mdl-req-type"></span></div>
+              <div><strong>Event Date:</strong> <span id="mdl-req-date"></span></div>
+              <div><strong>Event Time:</strong> <span id="mdl-req-time"></span></div>
+              <div><strong>Deadline:</strong> <span id="mdl-req-deadline"></span></div>
+              <div><strong>Venue:</strong> <span id="mdl-req-venue"></span></div>
+              <div><strong>Designer:</strong> <span id="mdl-req-designer"></span></div>
+              <div><strong>Sub-Committee / Wing:</strong> <span id="mdl-req-committee"></span></div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Collaboration:</strong>
+              <div id="mdl-req-collab" style="font-size: 0.82rem; color: var(--text-muted);">None</div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Event Description:</strong>
+              <div id="mdl-req-desc" style="font-size: 0.82rem; color: var(--text-muted); white-space: pre-wrap;"></div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Special Instructions:</strong>
+              <div id="mdl-req-instr" style="font-size: 0.82rem; color: var(--text-muted); white-space: pre-wrap;"></div>
+            </div>
+
+            <!-- Reference Section (Part 37) -->
+            <div id="mdl-req-ref-box" style="display:none; margin-top: 1rem; padding: 0.75rem; background: #fafbfc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.35rem;">Reference Document (Google Drive):</strong>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span id="mdl-req-ref-name" style="font-size:0.8rem; font-family:monospace;">Ref_01</span>
+                <a href="#" id="mdl-req-ref-link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  View Reference
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Poster & Proofs Media Sections (Part 39) -->
+          <div>
+            <!-- Current Poster -->
+            <div class="poster-preview-card" style="margin-bottom: 1rem;">
+              <strong style="display: block; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: left;">Latest Poster Artwork</strong>
+              <div id="poster-display-container">
+                <p style="font-size: 0.82rem; color: var(--text-muted); padding: 2rem 0; text-align: center;">No poster uploaded yet. The assigned designer is working on it.</p>
+              </div>
+            </div>
+
+            <!-- Proofs Section -->
+            <div class="card" style="padding: 0.85rem; margin-bottom: 1rem;">
+              <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <strong style="font-size: 0.85rem;">Committee Proofs</strong>
+                  <span style="font-size: 0.72rem; color: var(--text-muted); display: block;">Linked to this poster</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" onclick="openAddProofModal(activeRequest ? (activeRequest.posterId || activeRequest.id) : null)">+ Add Proof</button>
+              </div>
+              <div id="proofs-display-container">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">No proofs added yet for this poster.</p>
+              </div>
+            </div>
+
+            <!-- Poster Version History (Part 35) -->
+            <div class="card" style="padding: 0.85rem;">
+              <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.4rem;">
+                <strong style="font-size: 0.85rem;">Poster Version Iterations</strong>
+                <span style="font-size: 0.72rem; color: var(--text-muted);">Google Drive Archive</span>
+              </div>
+              <div id="poster-versions-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 180px; overflow-y: auto;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">No prior versions.</p>
+              </div>
+            </div>
+
+            <!-- Request Revision & Add Proof Buttons -->
+            <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="openAddProofModal(activeRequest ? (activeRequest.posterId || activeRequest.id) : null)">+ Add Proof</button>
+              <button type="button" class="btn btn-outline-danger btn-sm" id="btn-open-revision-form">Request Revision</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('request-details-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD PROOF MODAL (COMMITTEE WORKFLOW) -->
+  <div class="modal-backdrop" id="add-proof-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Proof to Submitted Poster</h3>
+        <button type="button" class="modal-close" onclick="closeModal('add-proof-modal')">&times;</button>
+      </div>
+      <form id="add-proof-form">
+        <div class="modal-body">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+            Upload proof documentation or verification for this submitted poster. The proof automatically inherits the poster's Wing and generates a dedicated Proof ID.
+          </p>
+
+          <!-- Poster Linkage & Inherited Wing Info (Requirements 5 & 6) -->
+          <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 1rem; font-size: 0.82rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div>
+                <span style="color: var(--text-muted); font-size: 0.72rem; display: block;">Target Poster ID:</span>
+                <strong id="proof-modal-poster-id" style="font-family: monospace; color: var(--primary); font-size: 0.92rem;">—</strong>
+              </div>
+              <div>
+                <span style="color: var(--text-muted); font-size: 0.72rem; display: block;">Poster Heading:</span>
+                <span id="proof-modal-poster-heading" style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">—</span>
+              </div>
+              <div>
+                <span style="color: var(--text-muted); font-size: 0.72rem; display: block;">Inherited Wing:</span>
+                <strong id="proof-modal-wing-name" style="color: var(--text-main);">—</strong>
+                <span id="proof-modal-wing-code-badge" class="badge" style="font-family: monospace; margin-left: 0.35rem; background: #e0e7ff; color: #3730a3;">—</span>
+              </div>
+              <div>
+                <span style="color: var(--text-muted); font-size: 0.72rem; display: block;">Generated Proof ID:</span>
+                <strong id="proof-modal-generated-id" style="font-family: monospace; color: var(--accent-purple-text); font-size: 0.92rem;">Generating...</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="proof-file-input">Proof File <span class="required">*</span></label>
+            <input type="file" id="proof-file-input" class="form-control" accept="image/*,.pdf" required />
+            <div class="form-hint">Image or PDF verification file. Automatically named as <span id="proof-file-name-preview" style="font-family: monospace; font-weight: 700; color: var(--text-main);">[wing]_pro_XX.ext</span>.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="proof-notes-input">Verification Notes / Remarks</label>
+            <textarea id="proof-notes-input" class="form-control" rows="2" placeholder="e.g. Committee verification notes, stamp, or layout sign-off..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-proof-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-add-proof">Upload &amp; Link Proof</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- REVISION REQUEST MODAL -->
+  <div class="modal-backdrop" id="revision-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Request Poster Revision</h3>
+        <button type="button" class="modal-close" onclick="closeModal('revision-modal')">&times;</button>
+      </div>
+      <form id="revision-form">
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Please describe required modifications. The designer will create a new Drive version without overwriting prior designs.
+          </p>
+          <div class="form-group">
+            <label for="revision-reason">Revision Instructions <span class="required">*</span></label>
+            <textarea id="revision-reason" class="form-control" rows="4" placeholder="Specify date corrections, sponsor logo adjustments, font sizing..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('revision-modal')">Cancel</button>
+          <button type="submit" class="btn btn-accent" id="btn-submit-revision">Submit Revision Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CHANGE PASSWORD MODAL -->
+  <div class="modal-backdrop" id="change-password-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button type="button" class="modal-close" onclick="closeModal('change-password-modal')">&times;</button>
+      </div>
+      <form id="change-password-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cp-current">Current Password <span class="required">*</span></label>
+            <input type="password" id="cp-current" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="cp-new">New Password <span class="required">*</span></label>
+            <input type="password" id="cp-new" class="form-control" required minlength="6" />
+          </div>
+          <div class="form-group">
+            <label for="cp-confirm">Confirm New Password <span class="required">*</span></label>
+            <input type="password" id="cp-confirm" class="form-control" required minlength="6" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('change-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-change-password">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module">
+    import {
+      initAuthListener,
+      handleSignOut,
+      createPosterRequest,
+      addCommitteeProof,
+      generateNextProofId,
+      getWingCode,
+      handleRequestRevision,
+      handleChangePassword,
+      getSubCommittees,
+      getClassUnions,
+      getStatusBadgeHtml,
+      getPriorityBadgeHtml,
+      getLanguageBadgeHtml,
+      formatDate,
+      openModal,
+      closeModal,
+      listenToNotifications,
+      markNotificationAsRead
+    } from './app.js';
+    import { db, collection, query, where, orderBy, onSnapshot, getDocs } from './firebase.js';
+
+    let userRequests = [];
+    let activeRequest = null;
+    let currentProfile = null;
+
+    window.toggleSidebar = () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    };
+
+    window.switchTab = (tabId) => {
+      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.style.display = 'block';
+
+      const navBtn = document.querySelector(`.nav-item[data-tab="${tabId}"]`);
+      if (navBtn) navBtn.classList.add('active');
+
+      const headings = {
+        'tab-dashboard': 'Dashboard',
+        'tab-new-poster': 'New Poster Request',
+        'tab-my-requests': 'My Requests',
+        'tab-notifications': 'Notifications',
+        'tab-profile': 'User Profile'
+      };
+      document.getElementById('page-heading').textContent = headings[tabId] || 'Dashboard';
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    };
+
+    // Initialize Auth Guard
+    initAuthListener('user');
+
+    window.onAppReady = async (profile) => {
+      currentProfile = profile;
+      populateProfileUI(profile);
+      await loadCollaborationOptions();
+      setupRequestsRealtimeListener(profile);
+      setupNotificationsListener(profile);
+    };
+
+    function populateProfileUI(profile) {
+      const commName = profile.subCommitteeName || 'General Wing';
+      if (document.getElementById('prof-username')) document.getElementById('prof-username').textContent = profile.username ? `@${profile.username}` : 'Not set';
+      if (document.getElementById('prof-committee')) document.getElementById('prof-committee').textContent = commName;
+      if (document.getElementById('prof-chairman')) document.getElementById('prof-chairman').textContent = profile.chairman || profile.name || '—';
+      if (document.getElementById('prof-convenor')) document.getElementById('prof-convenor').textContent = profile.convenor || '—';
+      if (document.getElementById('prof-email1')) document.getElementById('prof-email1').textContent = profile.email || '—';
+      if (document.getElementById('prof-email2')) document.getElementById('prof-email2').textContent = profile.email2 || 'None';
+      
+      // Auto-lock sub-committee on new request form (Part 25)
+      const lockedInput = document.getElementById('post-committee-locked');
+      if (lockedInput) lockedInput.value = commName;
+
+      const bannerComm = document.getElementById('dash-banner-committee');
+      if (bannerComm) bannerComm.textContent = commName;
+    }
+
+    async function loadCollaborationOptions() {
+      const subCommittees = await getSubCommittees();
+      const classUnions = await getClassUnions();
+
+      const subGrid = document.getElementById('collab-subcommittees-grid');
+      if (subGrid) {
+        if (subCommittees.length === 0) {
+          subGrid.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted); padding:0.5rem;">No other sub-committees registered.</div>';
+        } else {
+          subGrid.innerHTML = subCommittees
+            .filter(c => c.name !== currentProfile?.subCommitteeName)
+            .map(c => `
+              <label class="checkbox-item">
+                <input type="checkbox" name="collab-sub" value="${c.name}">
+                <span>${c.name}</span>
+              </label>
+            `).join('');
+        }
+      }
+
+      const cuGrid = document.getElementById('collab-classunions-grid');
+      if (cuGrid) {
+        if (classUnions.length === 0) {
+          cuGrid.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted); padding:0.5rem;">No class unions registered.</div>';
+        } else {
+          cuGrid.innerHTML = classUnions.map(cu => `
+            <label class="checkbox-item">
+              <input type="checkbox" name="collab-cu" value="${cu.name}">
+              <span>${cu.name}</span>
+            </label>
+          `).join('');
+        }
+      }
+    }
+
+    // Real-time listener for user's requests
+    function setupRequestsRealtimeListener(profile) {
+      const q = query(
+        collection(db, 'requests'),
+        where('userId', '==', profile.id),
+        orderBy('createdAt', 'desc')
+      );
+
+      onSnapshot(q, (snapshot) => {
+        userRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        updateDashboardStats(userRequests);
+        renderRequestsTables(userRequests);
+
+        if (activeRequest) {
+          const fresh = userRequests.find(r => r.id === activeRequest.id);
+          if (fresh) {
+            renderRequestDetailsModal(fresh);
+          }
+        }
+      }, (err) => {
+        console.error('Error fetching requests:', err);
+      });
+    }
+
+    function updateDashboardStats(requests) {
+      const total = requests.length;
+      const pending = requests.filter(r => r.status === 'Submitted' || r.status === 'Under Review').length;
+      const progress = requests.filter(r => r.status === 'Assigned' || r.status === 'Designing').length;
+      const uploaded = requests.filter(r => r.status === 'Poster Uploaded').length;
+      const revision = requests.filter(r => r.status === 'Revision Required').length;
+      const completed = requests.filter(r => r.status === 'Final' || r.status === 'Completed').length;
+
+      document.getElementById('stat-total-requests').textContent = total;
+      document.getElementById('stat-pending-requests').textContent = pending;
+      document.getElementById('stat-progress-requests').textContent = progress;
+      document.getElementById('stat-uploaded-requests').textContent = uploaded;
+      document.getElementById('stat-revision-requests').textContent = revision;
+      document.getElementById('stat-completed-requests').textContent = completed;
+    }
+
+    function renderRequestsTables(requests) {
+      const recentTbody = document.getElementById('recent-requests-tbody');
+      const allTbody = document.getElementById('all-requests-tbody');
+
+      if (!requests || requests.length === 0) {
+        const emptyRow = `<tr><td colspan="10" class="empty-state">No poster requests found. Create your first request!</td></tr>`;
+        if (recentTbody) recentTbody.innerHTML = emptyRow;
+        if (allTbody) allTbody.innerHTML = emptyRow;
+        return;
+      }
+
+      // Recent 5
+      if (recentTbody) {
+        recentTbody.innerHTML = requests.slice(0, 5).map(r => `
+          <tr>
+            <td><strong style="font-family:monospace;">${r.posterId || r.requestId}</strong></td>
+            <td><span class="badge" style="background:#eef2ff; color:#4338ca;">${r.subCommitteeName || 'Wing'}</span></td>
+            <td>${r.posterType || 'Poster'}</td>
+            <td style="font-weight: 600;">${r.mainHeading}</td>
+            <td>${formatDate(r.deadline)}</td>
+            <td>${r.designerName || 'Unassigned'}</td>
+            <td>${getStatusBadgeHtml(r.status)}</td>
+            <td>
+              <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+                <button class="btn btn-secondary btn-sm" onclick="viewRequestDetails('${r.id}')">View</button>
+                <button class="btn btn-primary btn-sm" onclick="openAddProofModal('${r.id}')">+ Add Proof</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      renderAllRequestsRows(requests);
+    }
+
+    function renderAllRequestsRows(requests) {
+      const allTbody = document.getElementById('all-requests-tbody');
+      if (!allTbody) return;
+      allTbody.innerHTML = requests.map(r => `
+        <tr>
+          <td><strong style="font-family:monospace;">${r.posterId || r.requestId}</strong></td>
+          <td><span class="badge" style="background:#eef2ff; color:#4338ca;">${r.subCommitteeName || 'Wing'}</span></td>
+          <td>${r.posterType || 'Poster'}</td>
+          <td style="font-weight: 600;">${r.mainHeading}</td>
+          <td>${formatDate(r.date)}</td>
+          <td>${formatDate(r.deadline)}</td>
+          <td>${r.designerName || 'Unassigned'}</td>
+          <td>${getStatusBadgeHtml(r.status)}</td>
+          <td>
+            ${r.poster?.fileName ? `<span class="badge badge-drive">${r.poster.fileName}</span>` : '<span style="color:var(--text-light)">None</span>'}
+          </td>
+          <td>
+            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="viewRequestDetails('${r.id}')">Details</button>
+              <button class="btn btn-primary btn-sm" onclick="openAddProofModal('${r.id}')">+ Add Proof</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.filterRequestsList = () => {
+      const q = (document.getElementById('requests-search')?.value || '').toLowerCase();
+      const statusFilter = document.getElementById('filter-status')?.value || '';
+      const priorityFilter = document.getElementById('filter-priority')?.value || '';
+
+      const filtered = userRequests.filter(r => {
+        const matchQ = (r.mainHeading || '').toLowerCase().includes(q) ||
+                       (r.posterId || '').toLowerCase().includes(q) ||
+                       (r.requestId || '').toLowerCase().includes(q) ||
+                       (r.subCommitteeName || '').toLowerCase().includes(q);
+        const matchStatus = !statusFilter || r.status === statusFilter;
+        const matchPriority = !priorityFilter || r.priority === priorityFilter;
+        return matchQ && matchStatus && matchPriority;
+      });
+
+      renderAllRequestsRows(filtered);
+    };
+
+    // Open Request Details Modal
+    window.viewRequestDetails = async (id) => {
+      const req = userRequests.find(r => r.id === id);
+      if (!req) return;
+      activeRequest = req;
+      renderRequestDetailsModal(req);
+      openModal('request-details-modal');
+      await loadPosterVersions(req.id);
+      await loadProofVersions(req.id);
+    };
+
+    function renderRequestDetailsModal(req) {
+      document.getElementById('mdl-req-title').textContent = req.mainHeading;
+      document.getElementById('mdl-req-id').textContent = `${req.posterId || req.requestId} • Created ${formatDate(req.createdAt)}`;
+      document.getElementById('mdl-req-lang-badge').innerHTML = `<span class="badge" style="background:#e0e7ff; color:#3730a3; font-family:monospace;">${req.wingCode || getWingCode(req.subCommitteeName)}</span>`;
+      document.getElementById('mdl-req-status-badge').innerHTML = getStatusBadgeHtml(req.status);
+      document.getElementById('mdl-req-priority-badge').innerHTML = getPriorityBadgeHtml(req.priority);
+      document.getElementById('mdl-req-heading').textContent = req.mainHeading;
+      document.getElementById('mdl-req-subheading').textContent = req.subHeading || 'No sub-heading';
+      document.getElementById('mdl-req-wing-code').textContent = req.wingCode || getWingCode(req.subCommitteeName);
+      document.getElementById('mdl-req-type').textContent = req.posterType || 'Main Poster';
+      document.getElementById('mdl-req-date').textContent = formatDate(req.date);
+      document.getElementById('mdl-req-time').textContent = req.time || '—';
+      document.getElementById('mdl-req-deadline').textContent = formatDate(req.deadline);
+      document.getElementById('mdl-req-venue').textContent = req.venue || '—';
+      const desDisplay = req.designerName ? `${req.designerName}${req.designerUsername ? ' (@' + req.designerUsername + ')' : ''}` : 'Unassigned';
+      document.getElementById('mdl-req-designer').textContent = `${desDisplay} (${req.assignmentType || 'auto'})`;
+      document.getElementById('mdl-req-committee').textContent = req.subCommitteeName || '—';
+
+      const colSub = (req.collaboration?.subCommittees || []).join(', ');
+      const colCu = (req.collaboration?.classUnions || []).join(', ');
+      let collabText = [];
+      if (colSub) collabText.push(`Wings: ${colSub}`);
+      if (colCu) collabText.push(`Classes: ${colCu}`);
+      document.getElementById('mdl-req-collab').textContent = collabText.join(' | ') || 'None';
+
+      document.getElementById('mdl-req-desc').textContent = req.description || 'No description provided.';
+      document.getElementById('mdl-req-instr').textContent = req.specialInstructions || 'None';
+
+      // Reference File (Part 37)
+      const refBox = document.getElementById('mdl-req-ref-box');
+      if (req.reference && req.reference.driveUrl) {
+        refBox.style.display = 'block';
+        document.getElementById('mdl-req-ref-name').textContent = req.reference.fileName || 'Ref_01';
+        document.getElementById('mdl-req-ref-link').href = req.reference.webViewLink || req.reference.driveUrl;
+      } else {
+        refBox.style.display = 'none';
+      }
+
+      // Poster preview
+      const posterBox = document.getElementById('poster-display-container');
+      if (req.poster && req.poster.driveUrl) {
+        const driveLink = req.poster.webViewLink || req.poster.driveUrl;
+        const downloadLink = req.poster.downloadUrl || req.poster.driveUrl;
+        posterBox.innerHTML = `
+          <img src="${req.poster.driveUrl}" alt="Current Poster" class="poster-img-display" />
+          <div style="margin-top: 0.65rem; font-size: 0.78rem; color: var(--text-muted); text-align: center;">
+            <strong style="font-family:monospace;">${req.poster.fileName}</strong> (${req.poster.currentVersion}) • Uploaded ${formatDate(req.poster.uploadedAt)}
+          </div>
+          <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+            <a href="${driveLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              Open in Drive
+            </a>
+            <a href="${downloadLink}" target="_blank" download class="btn btn-primary btn-sm">
+              Download
+            </a>
+          </div>
+        `;
+      } else {
+        posterBox.innerHTML = `<p style="font-size: 0.82rem; color: var(--text-muted); padding: 2rem 0; text-align: center;">No final poster uploaded yet.</p>`;
+      }
+    }
+
+    async function loadPosterVersions(reqId) {
+      const vList = document.getElementById('poster-versions-list');
+      try {
+        const snap = await getDocs(collection(db, 'requests', reqId, 'posterVersions'));
+        if (snap.empty) {
+          vList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">No version iterations yet.</p>`;
+          return;
+        }
+        const versions = snap.docs.map(d => d.data()).sort((a,b) => (b.version > a.version ? 1 : -1));
+        vList.innerHTML = versions.map(v => `
+          <div class="version-item">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <strong style="font-size: 0.85rem; font-family:monospace;">${v.fileName || v.version}</strong>
+                ${v.status === 'Final' ? '<span class="badge badge-final" style="font-size:0.65rem; padding:1px 5px;">FINAL</span>' : ''}
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                ${formatDate(v.uploadedAt)} by ${v.uploadedByName || 'Designer'}
+              </div>
+              ${v.notes ? `<div style="font-size: 0.75rem; color: var(--text-main); margin-top: 2px;">Note: ${v.notes}</div>` : ''}
+            </div>
+            <div style="display:flex; gap:0.35rem;">
+              <a href="${v.webViewLink || v.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Drive</a>
+              <a href="${v.driveUrl}" target="_blank" download class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">View</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        vList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Could not fetch versions.</p>`;
+      }
+    }
+
+    async function loadProofVersions(reqId) {
+      const container = document.getElementById('proofs-display-container');
+      try {
+        const snap = await getDocs(collection(db, 'requests', reqId, 'proofVersions'));
+        if (snap.empty) {
+          container.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">No proofs added yet for this poster. Click "+ Add Proof" to attach verification.</p>`;
+          return;
+        }
+        const proofs = snap.docs.map(d => d.data()).sort((a,b) => (b.uploadedAt > a.uploadedAt ? 1 : -1));
+        container.innerHTML = proofs.map(p => `
+          <div class="version-item" style="background:#fafbfc; border-left: 3px solid var(--accent-purple);">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <strong style="font-size: 0.88rem; font-family:monospace; color:var(--accent-purple-text);">${p.proofId || p.fileName}</strong>
+                <span class="badge badge-designing" style="font-size:0.65rem; padding:1px 5px;">PROOF</span>
+                <span style="font-size:0.75rem; color:var(--text-muted);">for ${p.posterId || reqId}</span>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                Added ${formatDate(p.uploadedAt)} by ${p.uploadedByName || 'Committee'}
+              </div>
+              ${p.notes ? `<div style="font-size: 0.75rem; color: var(--text-main); margin-top: 2px;">Notes: ${p.notes}</div>` : ''}
+            </div>
+            <div style="display:flex; gap:0.35rem;">
+              <a href="${p.webViewLink || p.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Drive</a>
+              <a href="${p.driveUrl}" target="_blank" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Preview</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Could not fetch proofs.</p>`;
+      }
+    }
+
+    // Open Add Proof Modal for a Submitted Poster (Requirements 2, 4, 5, 6)
+    window.openAddProofModal = async (id) => {
+      const req = (id ? userRequests.find(r => r.id === id || r.posterId === id || r.requestId === id) : null) || activeRequest;
+      if (!req) return;
+      const targetPosterId = req.posterId || req.requestId || req.id;
+      const wingName = req.subCommitteeName || 'General Wing';
+      const wingCode = req.wingCode || getWingCode(wingName);
+
+      document.getElementById('proof-modal-poster-id').textContent = targetPosterId;
+      document.getElementById('proof-modal-poster-heading').textContent = req.mainHeading;
+      document.getElementById('proof-modal-wing-name').textContent = wingName;
+      document.getElementById('proof-modal-wing-code-badge').textContent = wingCode;
+      document.getElementById('proof-modal-generated-id').textContent = 'Generating...';
+      document.getElementById('proof-file-name-preview').textContent = `${wingCode}_pro_XX.ext`;
+      document.getElementById('add-proof-form').reset();
+
+      openModal('add-proof-modal');
+
+      try {
+        const { proofId } = await generateNextProofId(wingCode);
+        document.getElementById('proof-modal-generated-id').textContent = proofId;
+        document.getElementById('proof-file-name-preview').textContent = `${proofId}.ext`;
+        window._activeProofTarget = {
+          posterId: targetPosterId,
+          wingCode,
+          wingName,
+          proofId
+        };
+      } catch (err) {
+        console.error('Error generating proof ID:', err);
+        document.getElementById('proof-modal-generated-id').textContent = `${wingCode}_pro_01`;
+        window._activeProofTarget = {
+          posterId: targetPosterId,
+          wingCode,
+          wingName,
+          proofId: `${wingCode}_pro_01`
+        };
+      }
+    };
+
+    // Add Proof Form Submission
+    document.getElementById('add-proof-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!window._activeProofTarget) return;
+
+      const fileInput = document.getElementById('proof-file-input');
+      if (!fileInput.files || fileInput.files.length === 0) {
+        showToast('Please select a proof file to upload.', 'error');
+        return;
+      }
+      const file = fileInput.files[0];
+      const notes = document.getElementById('proof-notes-input').value.trim();
+      const submitBtn = document.getElementById('btn-submit-add-proof');
+
+      try {
+        await addCommitteeProof({
+          posterId: window._activeProofTarget.posterId,
+          file,
+          notes,
+          submitBtn
+        });
+        document.getElementById('add-proof-form').reset();
+        if (activeRequest && (activeRequest.id === window._activeProofTarget.posterId || activeRequest.posterId === window._activeProofTarget.posterId)) {
+          await loadProofVersions(activeRequest.id);
+        }
+      } catch (err) {
+        console.error('Error adding proof:', err);
+      }
+    });
+
+    // Submit New Poster Request Form
+    document.getElementById('new-poster-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit-poster');
+
+      const collabSub = Array.from(document.querySelectorAll('input[name="collab-sub"]:checked')).map(el => el.value);
+      const collabCu = Array.from(document.querySelectorAll('input[name="collab-cu"]:checked')).map(el => el.value);
+
+      const refFileInput = document.getElementById('post-reference-file');
+      const refFile = refFileInput.files ? refFileInput.files[0] : null;
+
+      const data = {
+        posterType: document.getElementById('post-type').value,
+        priority: document.getElementById('post-priority').value,
+        mainHeading: document.getElementById('post-main-heading').value.trim(),
+        subHeading: document.getElementById('post-sub-heading').value.trim(),
+        date: document.getElementById('post-date').value,
+        time: document.getElementById('post-time').value,
+        deadline: document.getElementById('post-deadline').value,
+        venue: document.getElementById('post-venue').value.trim(),
+        collabSubCommittees: collabSub,
+        collabClassUnions: collabCu,
+        description: document.getElementById('post-description').value.trim(),
+        specialInstructions: document.getElementById('post-special-instructions').value.trim()
+      };
+
+      try {
+        await createPosterRequest(data, refFile, submitBtn);
+        document.getElementById('new-poster-form').reset();
+        populateProfileUI(currentProfile);
+        switchTab('tab-my-requests');
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+    // Revision Triggers
+    document.getElementById('btn-open-revision-form').addEventListener('click', () => {
+      if (!activeRequest) return;
+      openModal('revision-modal');
+    });
+
+    document.getElementById('revision-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!activeRequest) return;
+      const reason = document.getElementById('revision-reason').value.trim();
+      const submitBtn = document.getElementById('btn-submit-revision');
+      await handleRequestRevision(activeRequest.id, reason, submitBtn);
+      document.getElementById('revision-form').reset();
+    });
+
+    // Change Password Form
+    document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const curr = document.getElementById('cp-current').value;
+      const newP = document.getElementById('cp-new').value;
+      const conf = document.getElementById('cp-confirm').value;
+      const ok = await handleChangePassword(curr, newP, conf);
+      if (ok) document.getElementById('change-password-form').reset();
+    });
+
+    // Notifications
+    function setupNotificationsListener(profile) {
+      listenToNotifications(profile.id, (notifs) => {
+        const unreadCount = notifs.filter(n => !n.read).length;
+        const badge = document.getElementById('badge-unread-count');
+        if (badge) {
+          badge.textContent = unreadCount;
+          badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+        }
+        const notifContainer = document.getElementById('notifications-list');
+        if (notifContainer) {
+          if (notifs.length === 0) {
+            notifContainer.innerHTML = '<div class="empty-state">No notifications yet.</div>';
+          } else {
+            notifContainer.innerHTML = notifs.map(n => `
+              <div class="card" style="padding: 0.85rem 1rem; border-left: 3px solid ${n.read ? 'var(--border-color)' : 'var(--accent-red)'}; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.88rem;">${n.title}</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">${n.message}</div>
+                  <div style="font-size: 0.72rem; color: var(--text-light); margin-top: 4px;">${formatDate(n.createdAt)}</div>
+                </div>
+                ${!n.read ? `<button class="btn btn-secondary btn-sm" onclick="handleNotificationRead('${n.id}')">Mark Read</button>` : ''}
+              </div>
+            `).join('');
+          }
+        }
+      });
+    }
+
+    window.handleNotificationRead = async (id) => {
+      await markNotificationAsRead(id);
+    };
+  </script>
+</body>
+</html>

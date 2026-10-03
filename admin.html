@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Command Center — Union Design Hub</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation (Strict Left Aligned) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-logo-mark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+              <path d="M3 9h18"></path>
+              <path d="M9 21V9"></path>
+            </svg>
+          </div>
+          <div class="brand-text-block">
+            <span class="brand-title">UNION DESIGN HUB</span>
+            <span class="brand-subtitle">Admin Console</span>
+          </div>
+        </div>
+        <button class="mobile-toggle" onclick="toggleSidebar()">&times;</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="tab-dashboard" onclick="switchTab('tab-dashboard')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span class="nav-text">Dashboard</span>
+        </button>
+        <button class="nav-item" data-tab="tab-requests" onclick="switchTab('tab-requests')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+          <span class="nav-text">Poster Requests</span>
+        </button>
+
+        <div class="nav-section-title">PEOPLE & ACCESS</div>
+        <button class="nav-item" data-tab="tab-users" onclick="switchTab('tab-users')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span class="nav-text">Users</span>
+        </button>
+        <button class="nav-item" data-tab="tab-user-requests" onclick="switchTab('tab-user-requests')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          <span class="nav-text">Pending Users</span>
+          <span id="badge-pending-user-reqs" class="badge-pill" style="display:none; background: var(--accent-red); color:#fff;">0</span>
+        </button>
+        <button class="nav-item" data-tab="tab-designers" onclick="switchTab('tab-designers')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <span class="nav-text">Designers</span>
+        </button>
+        <button class="nav-item" data-tab="tab-designer-requests" onclick="switchTab('tab-designer-requests')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+          <span class="nav-text">Designer Requests</span>
+          <span id="badge-pending-des-reqs" class="badge-pill" style="display:none; background: var(--accent-red); color:#fff;">0</span>
+        </button>
+        <button class="nav-item" data-tab="tab-monitors" onclick="switchTab('tab-monitors')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span class="nav-text">Monitors</span>
+        </button>
+
+        <div class="nav-section-title">ORGANIZATION & WINGS</div>
+        <button class="nav-item" data-tab="tab-subcommittees" onclick="switchTab('tab-subcommittees')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+          <span class="nav-text">Sub-Committees</span>
+        </button>
+        <button class="nav-item" data-tab="tab-classunions" onclick="switchTab('tab-classunions')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          <span class="nav-text">Class Unions</span>
+        </button>
+        <button class="nav-item" data-tab="tab-assignments" onclick="switchTab('tab-assignments')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M13 6h3a2 2 0 0 1 2 2v7"></path><line x1="6" y1="9" x2="6" y2="21"></line></svg>
+          <span class="nav-text">Designer Assignment</span>
+        </button>
+
+        <div class="nav-section-title">SYSTEM & RECOVERY</div>
+        <button class="nav-item" data-tab="tab-notifications" onclick="switchTab('tab-notifications')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="nav-text">Notifications</span>
+        </button>
+        <button class="nav-item" data-tab="tab-logs" onclick="switchTab('tab-logs')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span class="nav-text">Activity Logs</span>
+        </button>
+        <button class="nav-item" data-tab="tab-backup" onclick="switchTab('tab-backup')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span class="nav-text">Backup & Export</span>
+        </button>
+        <button class="nav-item" data-tab="tab-settings" onclick="switchTab('tab-settings')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span class="nav-text">Settings & Drive</span>
+        </button>
+
+        <div class="nav-section-title">ACCOUNT</div>
+        <button class="nav-item" onclick="openModal('change-password-modal')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span class="nav-text">Change Password</span>
+        </button>
+        <button class="nav-item" onclick="handleSignOut()" style="color: var(--accent-red);">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span class="nav-text">Sign Out</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar-initials" id="user-display-avatar">A</div>
+          <div class="user-profile-info">
+            <div class="user-profile-name" id="user-display-name">Administrator</div>
+            <div class="user-profile-role">
+              <span id="user-display-role">ADMIN</span>
+              <span id="user-display-username" style="color:var(--text-light); font-size:0.7rem;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="mobile-toggle btn-icon" onclick="toggleSidebar()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="breadcrumb-label">System</span>
+              <span class="breadcrumb-separator">/</span>
+              <h2 class="page-title-text" id="page-heading">Dashboard Overview</h2>
+            </div>
+          </div>
+        </div>
+        <div class="top-bar-right">
+          <button class="btn btn-secondary btn-sm" onclick="bootstrapSampleData()">
+            ⚡ Seed Standard Defaults
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- 1. DASHBOARD OVERVIEW TAB (PART 6) -->
+        <section id="tab-dashboard" class="tab-pane active">
+          <!-- 10 Professional Statistics Cards (Part 6) -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Total Users</div>
+              <div class="stat-value" id="stat-total-users">0</div>
+              <div class="stat-subtext">Active committee accounts</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Pending Users</div>
+              <div class="stat-value" id="stat-pending-user-reqs">0</div>
+              <div class="stat-subtext">Awaiting admin review</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Designers</div>
+              <div class="stat-value" id="stat-total-designers">0</div>
+              <div class="stat-subtext">Active creative team</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Pending Designers</div>
+              <div class="stat-value" id="stat-pending-des-reqs">0</div>
+              <div class="stat-subtext">Designer applications</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Monitors</div>
+              <div class="stat-value" id="stat-total-monitors">0</div>
+              <div class="stat-subtext">Executive view-only</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Total Poster Requests</div>
+              <div class="stat-value" id="stat-total-requests">0</div>
+              <div class="stat-subtext">Lifetime volume</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Pending Requests</div>
+              <div class="stat-value" id="stat-pending-requests">0</div>
+              <div class="stat-subtext">Queue / Under review</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Uploaded Posters</div>
+              <div class="stat-value" id="stat-uploaded-posters">0</div>
+              <div class="stat-subtext">Drafts in progress</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Revision Requests</div>
+              <div class="stat-value" id="stat-revision-requests">0</div>
+              <div class="stat-subtext">Client revisions active</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Final Posters</div>
+              <div class="stat-value" id="stat-completed-requests">0</div>
+              <div class="stat-subtext">Approved and published</div>
+            </div>
+          </div>
+
+          <!-- Split: Recent Requests & System Activity Stream -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Recent Poster Requests</h3>
+                <button class="btn btn-secondary btn-sm" onclick="switchTab('tab-requests')">View All</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table" id="dash-recent-reqs-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Lang</th>
+                      <th>Committee</th>
+                      <th>Heading</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-recent-reqs-tbody">
+                    <tr><td colspan="6" class="empty-state">Loading recent requests...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Recent Activity Logs</h3>
+                <button class="btn btn-secondary btn-sm" onclick="switchTab('tab-logs')">Full Audit</button>
+              </div>
+              <div class="timeline" id="dash-recent-logs" style="max-height: 280px; overflow-y: auto;">
+                <div class="empty-state">Loading recent audit events...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. REQUESTS MANAGEMENT TAB -->
+        <section id="tab-requests" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="toolbar">
+              <div class="search-box">
+                <input type="text" id="admin-req-search" class="form-control" placeholder="Search heading, ID, user, committee..." onkeyup="filterAdminRequests()" />
+              </div>
+              <div class="filter-group">
+                <select id="adm-filter-status" class="form-control" onchange="filterAdminRequests()">
+                  <option value="">All Statuses</option>
+                  <option value="Submitted">Submitted</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Assigned">Assigned</option>
+                  <option value="Designing">Designing</option>
+                  <option value="Poster Uploaded">Poster Uploaded</option>
+                  <option value="Revision Required">Revision Required</option>
+                  <option value="Final">Final</option>
+                  <option value="Completed">Completed</option>
+                </select>
+                <select id="adm-filter-priority" class="form-control" onchange="filterAdminRequests()">
+                  <option value="">All Priorities</option>
+                  <option value="Normal">Normal</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+                <select id="adm-filter-committee" class="form-control" onchange="filterAdminRequests()">
+                  <option value="">All Sub-Committees</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table" id="admin-requests-table">
+                <thead>
+                  <tr>
+                    <th>Poster ID</th>
+                    <th>Wing</th>
+                    <th>Sub-Committee</th>
+                    <th>Heading</th>
+                    <th>Deadline</th>
+                    <th>Designer</th>
+                    <th>Status</th>
+                    <th>Drive File</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-requests-tbody">
+                  <tr><td colspan="9" class="empty-state">Loading requests...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. USERS MANAGEMENT TAB (PARTS 19, 26) -->
+        <section id="tab-users" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">User Accounts</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Manage usernames, assigned sub-committees, and account status</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openAddUserModal('user')">+ Add User</button>
+            </div>
+            <!-- Filter & Subcommittee Menu Bar -->
+            <div style="padding: 0.75rem 1.25rem; background: var(--bg-subtle); border-bottom: 1px solid var(--border-color); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+              <div style="display: flex; gap: 0.5rem; align-items: center; flex: 1; min-width: 240px;">
+                <input type="text" id="user-mgmt-search" class="form-control" placeholder="Search by name, @username, or email..." style="max-width: 320px;" oninput="filterUserAccountsTable()" />
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                <label for="user-mgmt-comm-filter" style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0; white-space: nowrap;">Subcommittee Menu:</label>
+                <select id="user-mgmt-comm-filter" class="form-control" style="min-width: 260px; max-width: 380px;" onchange="filterUserAccountsTable()">
+                  <option value="">All Committees & Sub-Committees</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="resetUserAccountsFilter()">Clear Filter</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-users-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Committee / Sub-Committee</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-tbody">
+                  <tr><td colspan="7" class="empty-state">Loading users...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. PENDING USER REQUESTS (PARTS 14, 16, 21) -->
+        <section id="tab-user-requests" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Pending Sub-Committee User Applications</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Review applications, assign sub-committee, and activate accounts</span>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-user-reqs-table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Committee Name</th>
+                    <th>Chairman</th>
+                    <th>Convenor</th>
+                    <th>Primary Email</th>
+                    <th>Applied</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-user-reqs-tbody">
+                  <tr><td colspan="8" class="empty-state">Loading pending applications...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. DESIGNERS MANAGEMENT TAB -->
+        <section id="tab-designers" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Designers Roster</h3>
+              <button class="btn btn-primary btn-sm" onclick="openAddUserModal('designer')">+ Add Designer</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-designers-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-designers-tbody">
+                  <tr><td colspan="6" class="empty-state">Loading designers...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. DESIGNER REQUESTS TAB -->
+        <section id="tab-designer-requests" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Pending Designer Applications</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-des-reqs-table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Applied Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-des-reqs-tbody">
+                  <tr><td colspan="7" class="empty-state">Loading designer applications...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. MONITORS MANAGEMENT TAB -->
+        <section id="tab-monitors" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Executive Monitors (View-Only)</h3>
+              <button class="btn btn-primary btn-sm" onclick="openAddUserModal('monitor')">+ Add Monitor</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-monitors-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-monitors-tbody">
+                  <tr><td colspan="5" class="empty-state">Loading monitors...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. SUB-COMMITTEES MANAGEMENT TAB (PARTS 21, 22, 23) -->
+        <section id="tab-subcommittees" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Sub-Committees Management</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Manage wings and their assigned default designers</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openSubCommitteeModal()">+ Add Sub-Committee</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-subcommittees-table">
+                <thead>
+                  <tr>
+                    <th>Sub-Committee Name</th>
+                    <th>Assigned Default Designer</th>
+                    <th>Users Count</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-subcommittees-tbody">
+                  <tr><td colspan="5" class="empty-state">Loading sub-committees...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. CLASS UNIONS MANAGEMENT TAB (PART 27) -->
+        <section id="tab-classunions" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Class Unions Management</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Used for poster co-branding collaboration</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openClassUnionModal()">+ Add Class Union</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-classunions-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-classunions-tbody">
+                  <tr><td colspan="4" class="empty-state">Loading class unions...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. DESIGNER ASSIGNMENT MAPPING (PART 24) -->
+        <section id="tab-assignments" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 880px; margin: 0 auto;">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Default Designer Assignment Matrix</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Sub-Committee &rarr; Default Designer. Future requests route automatically.</span>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="admin-assignments-table">
+                <thead>
+                  <tr>
+                    <th>Sub-Committee</th>
+                    <th>Default Designer</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-assignments-tbody">
+                  <tr><td colspan="3" class="empty-state">Loading assignment matrix...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. NOTIFICATIONS TAB -->
+        <section id="tab-notifications" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 800px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">System Broadcast Notifications</h3>
+            </div>
+            <div id="admin-notifications-list" style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <div class="empty-state">No unread notifications.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. ACTIVITY LOGS TAB -->
+        <section id="tab-logs" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">System Activity Logs & Audit Trail</h3>
+              <button class="btn btn-secondary btn-sm" onclick="exportLogsCsv()">Export Logs CSV</button>
+            </div>
+            <div class="timeline" id="admin-full-logs" style="max-height: 540px; overflow-y: auto;">
+              <div class="empty-state">Loading audit logs...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13. BACKUP & EXPORT TAB -->
+        <section id="tab-backup" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 820px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">Database Backup & CSV Export</h3>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Passwords strictly excluded</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <p style="color: var(--text-muted); font-size: 0.85rem;">
+                Download snapshot records in clean CSV format for spreadsheets or disaster recovery.
+              </p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+                <button class="btn btn-secondary" onclick="exportUsersCsv()">Export Users CSV</button>
+                <button class="btn btn-secondary" onclick="exportDesignersCsv()">Export Designers CSV</button>
+                <button class="btn btn-secondary" onclick="exportMonitorsCsv()">Export Monitors CSV</button>
+                <button class="btn btn-secondary" onclick="exportRequestsCsv()">Export Requests CSV</button>
+                <button class="btn btn-secondary" onclick="exportCommitteesCsv()">Export Sub-Committees CSV</button>
+                <button class="btn btn-secondary" onclick="exportClassUnionsCsv()">Export Class Unions CSV</button>
+                <button class="btn btn-secondary" onclick="exportLogsCsv()">Export Activity Logs CSV</button>
+              </div>
+
+              <div style="margin-top: 1rem; padding: 1.25rem; background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: center;">
+                <h4 style="font-size: 1rem; margin-bottom: 0.35rem;">Complete Database Snapshot (JSON)</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+                  Downloads all schemas, associations, versions, and system logs in one JSON archive.
+                </p>
+                <button class="btn btn-primary" onclick="exportFullJsonBackup()">Download Full JSON Backup</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 14. SETTINGS & GOOGLE DRIVE CONFIGURATION TAB (PARTS 30, 49) -->
+        <section id="tab-settings" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 860px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">Google Drive Poster Storage Bridge</h3>
+              <span class="badge badge-drive">Active Drive Bridge</span>
+            </div>
+            
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+              Union Design Hub stores posters, proofs, and references in Google Drive via Google Apps Script.
+            </p>
+
+            <form id="drive-config-form" style="display: flex; flex-direction: column; gap: 1rem;">
+              <div class="form-group">
+                <label for="cfg-drive-webapp-url">Google Apps Script Web App Exec URL <span class="required">*</span></label>
+                <input type="url" id="cfg-drive-webapp-url" class="form-control" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+                <div class="form-hint">Paste your deployed Web App URL (Execute as: Me, Access: Anyone).</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                  <label for="cfg-drive-root-id">Root Google Drive Folder ID</label>
+                  <input type="text" id="cfg-drive-root-id" class="form-control" value="bc1p7wsvzgq4lp23jmn568n5lamzx5qy9uwuj2t533cda38p56xa35eq9r8rn7" />
+                  <div class="form-hint">Root folder where Posters/, Proof/, and Reference/ subfolders reside.</div>
+                </div>
+                <div class="form-group">
+                  <label for="cfg-drive-root-url">Root Google Drive Folder URL</label>
+                  <input type="url" id="cfg-drive-root-url" class="form-control" value="https://drive.google.com/drive/folders/bc1p7wsvzgq4lp23jmn568n5lamzx5qy9uwuj2t533cda38p56xa35eq9r8rn7" />
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; justify-content: flex-start; margin-top: 0.5rem;">
+                <button type="submit" class="btn btn-primary" id="btn-save-drive-config">Save Drive Configuration</button>
+                <button type="button" class="btn btn-secondary" onclick="testDriveConnection()">Test Endpoint Connection</button>
+              </div>
+            </form>
+
+            <!-- Guide and Apps Script Code -->
+            <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+              <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Ready-to-Deploy Google Apps Script Code (Code.gs):</h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                Create a project at <a href="https://script.google.com" target="_blank" style="color:var(--accent-blue); font-weight:700;">script.google.com</a>, paste the code below into <code>Code.gs</code>, click <strong>Deploy &gt; New deployment &gt; Web app</strong>, set <strong>Who has access: Anyone</strong>, and paste the URL above!
+              </p>
+
+              <pre class="drive-code-block">function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(15000);
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var base64 = data.base64;
+    if (base64.indexOf(',') > -1) {
+      base64 = base64.split(',')[1];
+    }
+    var decoded = Utilities.base64Decode(base64);
+    var mimeType = data.mimeType || "application/octet-stream";
+    var fileName = data.fileName || ("file_" + new Date().getTime());
+    var blob = Utilities.newBlob(decoded, mimeType, fileName);
+
+    var rootFolderId = data.rootFolderId || "bc1p7wsvzgq4lp23jmn568n5lamzx5qy9uwuj2t533cda38p56xa35eq9r8rn7";
+    var rootFolder;
+    try {
+      rootFolder = DriveApp.getFolderById(rootFolderId);
+    } catch(err) {
+      rootFolder = DriveApp.getRootFolder();
+    }
+
+    var targetFolder = rootFolder;
+    var folderType = data.folderType || "Posters"; // Posters, Proof, Reference
+    var language = data.language || "Arabic";
+    var committeeName = data.committeeName || "General";
+
+    // 1. Get or create type folder (Posters / Proof / Reference)
+    targetFolder = getOrCreateSubFolder(targetFolder, folderType);
+
+    // 2. Posters & Proof have Language / Committee hierarchy
+    if (folderType === "Posters" || folderType === "Proof") {
+      targetFolder = getOrCreateSubFolder(targetFolder, language);
+      targetFolder = getOrCreateSubFolder(targetFolder, committeeName);
+    }
+
+    var file = targetFolder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+    var fileId = file.getId();
+    var response = {
+      status: "success",
+      fileId: fileId,
+      fileName: fileName,
+      fileUrl: "https://lh3.googleusercontent.com/d/" + fileId,
+      webViewLink: file.getUrl(),
+      downloadUrl: "https://drive.google.com/uc?export=download&id=" + fileId,
+      folderId: targetFolder.getId(),
+      folderPath: folderType + "/" + language + "/" + committeeName,
+      fileSize: file.getSize()
+    };
+
+    return ContentService.createTextOutput(JSON.stringify(response))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getOrCreateSubFolder(parentFolder, subFolderName) {
+  var folders = parentFolder.getFoldersByName(subFolderName);
+  if (folders.hasNext()) {
+    return folders.next();
+  }
+  return parentFolder.createFolder(subFolderName);
+}</pre>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- APPROVE USER REQUEST MODAL (PARTS 16, 20, 21) -->
+  <div class="modal-backdrop" id="approve-user-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Approve Sub-Committee Registration</h3>
+        <button type="button" class="modal-close" onclick="closeModal('approve-user-modal')">&times;</button>
+      </div>
+      <form id="approve-user-form">
+        <input type="hidden" id="appr-req-id" />
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Assign and confirm the applicant's Sub-Committee. If the Sub-Committee does not exist yet, it will be automatically created with duplicate protection.
+          </p>
+
+          <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); font-size: 0.82rem; margin-bottom: 1rem;">
+            <div><strong>Username:</strong> <span id="appr-info-username"></span></div>
+            <div><strong>Requested Committee:</strong> <span id="appr-info-comm"></span></div>
+            <div><strong>Chairman:</strong> <span id="appr-info-chair"></span></div>
+            <div><strong>Convenor:</strong> <span id="appr-info-conv"></span></div>
+            <div><strong>Email:</strong> <span id="appr-info-email"></span></div>
+          </div>
+
+          <div class="form-group">
+            <label for="appr-subcommittee-name">Select or Enter Sub-Committee <span class="required">*</span></label>
+            <input type="text" id="appr-subcommittee-name" list="existing-subc-datalist" class="form-control" required placeholder="e.g. Arabic Wing" />
+            <datalist id="existing-subc-datalist"></datalist>
+            <div class="form-hint">Type or select an existing Sub-Committee. Matches are case-insensitive.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('approve-user-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-confirm-approve-user">Confirm Approval</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ASSIGN USERNAME MODAL (PART 19) -->
+  <div class="modal-backdrop" id="assign-username-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Assign Username to User</h3>
+        <button type="button" class="modal-close" onclick="closeModal('assign-username-modal')">&times;</button>
+      </div>
+      <form id="assign-username-form">
+        <input type="hidden" id="asgn-uname-userid" />
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Assign a globally unique username to this user for username-based login.
+          </p>
+          <div class="form-group">
+            <label>User Email</label>
+            <input type="text" id="asgn-uname-useremail" class="form-control form-control-readonly" readonly />
+          </div>
+          <div class="form-group">
+            <label for="asgn-uname-newname">New Username <span class="required">*</span></label>
+            <input type="text" id="asgn-uname-newname" class="form-control" pattern="^[a-zA-Z0-9_]{3,30}$" required placeholder="e.g. urdu_wing" />
+            <div class="form-hint">3-30 letters, numbers, and underscores.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('assign-username-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Username</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ASSIGN COMMITTEE / SUB-COMMITTEE MODAL -->
+  <div class="modal-backdrop" id="assign-committee-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Assign Committee / Sub-Committee</h3>
+        <button type="button" class="modal-close" onclick="closeModal('assign-committee-modal')">&times;</button>
+      </div>
+      <form id="assign-committee-form">
+        <input type="hidden" id="asgn-comm-userid" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label>User</label>
+            <input type="text" id="asgn-comm-userinfo" class="form-control form-control-readonly" readonly />
+          </div>
+          <div class="form-group">
+            <label>Current Assignment</label>
+            <div id="asgn-comm-current" style="font-size:0.88rem; color:var(--text-muted); padding:0.25rem 0;">None</div>
+          </div>
+          <div class="form-group">
+            <label for="asgn-comm-select">Select Committee Assignment <span class="required">*</span></label>
+            <select id="asgn-comm-select" class="form-control" required></select>
+            <div class="form-hint">Assigning a user to a main Committee automatically synchronizes access to all of its subcommittees.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('assign-committee-modal')">Cancel</button>
+          <button type="button" class="btn btn-outline-danger" onclick="handleRemoveCommitteeAssignment()">Remove Assignment</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-user-comm">Save Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD USER / DESIGNER / MONITOR MODAL -->
+  <div class="modal-backdrop" id="add-user-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="add-user-modal-title">Create Account</h3>
+        <button type="button" class="modal-close" onclick="closeModal('add-user-modal')">&times;</button>
+      </div>
+      <form id="add-user-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="newu-name">Full Name / Committee Title <span class="required">*</span></label>
+            <input type="text" id="newu-name" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="newu-username">Username <span class="required">*</span></label>
+            <input type="text" id="newu-username" class="form-control" pattern="^[a-zA-Z0-9_]{3,30}$" required placeholder="e.g. media_wing" />
+            <div class="form-hint">3-30 letters, numbers, and underscores. Globally unique.</div>
+          </div>
+          <div class="form-group">
+            <label for="newu-email">Email Address <span class="required">*</span></label>
+            <input type="email" id="newu-email" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="newu-password">Initial Password <span class="required">*</span></label>
+            <input type="password" id="newu-password" class="form-control" required minlength="6" placeholder="Min. 6 characters" />
+          </div>
+          <div class="form-group">
+            <label for="newu-role">Role <span class="required">*</span></label>
+            <select id="newu-role" class="form-control" required onchange="handleRoleChange()">
+              <option value="user">User (Sub-Committee)</option>
+              <option value="designer">Designer</option>
+              <option value="monitor">Monitor (View-Only)</option>
+            </select>
+          </div>
+          <div class="form-group" id="newu-subcommittee-group">
+            <label for="newu-subcommittee">Assigned Committee / Sub-Committee</label>
+            <select id="newu-subcommittee" class="form-control">
+              <option value="">None / General</option>
+            </select>
+            <div class="form-hint">Assigning to a main Committee automatically grants access to all its subcommittees.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-user-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-add-user">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN REQUEST VIEW & OVERRIDE MODAL (PARTS 24, 38, 39) -->
+  <div class="modal-backdrop" id="admin-request-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <h3 class="modal-title" id="adm-view-title">Request Review & Override</h3>
+          </div>
+          <span style="font-size: 0.78rem; color: var(--text-muted);" id="adm-view-id">REQ-0000</span>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('admin-request-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Left details & controls -->
+          <div>
+            <div style="margin-bottom: 0.75rem;">
+              <span id="adm-view-status-badge"></span>
+              <span id="adm-view-priority-badge" style="margin-left: 0.35rem;"></span>
+            </div>
+            <h4 id="adm-view-heading" style="font-size: 1.15rem; margin-bottom: 0.25rem;"></h4>
+            <div id="adm-view-subheading" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;"></div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.82rem; margin-bottom: 1rem; background: var(--bg-subtle); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+              <div><strong>Poster ID:</strong> <span id="adm-view-poster-id" style="font-family:monospace; font-weight:600;"></span></div>
+              <div><strong>Sub-Committee:</strong> <span id="adm-view-committee"></span></div>
+              <div><strong>Created By:</strong> <span id="adm-view-creator"></span></div>
+              <div><strong>Event Date:</strong> <span id="adm-view-date"></span></div>
+              <div><strong>Deadline:</strong> <span id="adm-view-deadline"></span></div>
+              <div><strong>Current Designer:</strong> <span id="adm-view-designer"></span></div>
+              <div><strong>Assignment:</strong> <span id="adm-view-asgn-type"></span></div>
+            </div>
+
+            <!-- Override Designer (Part 24) -->
+            <div style="margin-bottom: 1rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background:#ffffff;">
+              <label style="font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem;">Assign / Override Designer:</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <select id="override-designer-select" class="form-control" style="flex: 1; font-size: 0.82rem;"></select>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="handleOverrideDesignerSubmit()">Assign</button>
+              </div>
+            </div>
+
+            <!-- Change Status -->
+            <div style="margin-bottom: 1rem; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background:#ffffff;">
+              <label style="font-weight: 700; font-size: 0.82rem; display: block; margin-bottom: 0.35rem;">Update Request Status:</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <select id="change-status-select" class="form-control" style="flex: 1; font-size: 0.82rem;">
+                  <option value="Submitted">Submitted</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Assigned">Assigned</option>
+                  <option value="Designing">Designing</option>
+                  <option value="Poster Uploaded">Poster Uploaded</option>
+                  <option value="Revision Required">Revision Required</option>
+                  <option value="Final">Final</option>
+                  <option value="Completed">Completed</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="handleChangeStatusSubmit()">Update</button>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Collaboration:</strong>
+              <div id="adm-view-collab" style="font-size: 0.82rem; color: var(--text-muted);">None</div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Description:</strong>
+              <div id="adm-view-desc" style="font-size: 0.82rem; color: var(--text-muted); white-space: pre-wrap;"></div>
+            </div>
+
+            <!-- Reference link (Part 37) -->
+            <div id="adm-view-ref-box" style="display:none; margin-top: 1rem; padding: 0.75rem; background: #fafbfc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.35rem;">Reference Document (Google Drive):</strong>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span id="adm-view-ref-name" style="font-size:0.8rem; font-family:monospace;">Ref_01</span>
+                <a href="#" id="adm-view-ref-link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  View Reference
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Poster Artwork, Proofs, Versions -->
+          <div>
+            <div class="poster-preview-card" style="margin-bottom: 1rem;">
+              <strong style="display: block; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: left;">Latest Artwork</strong>
+              <div id="adm-view-poster-container">
+                <p style="font-size: 0.82rem; color: var(--text-muted); padding: 2rem 0; text-align: center;">No poster uploaded yet.</p>
+              </div>
+            </div>
+
+            <!-- Proofs Section -->
+            <div class="card" style="padding: 0.85rem; margin-bottom: 1rem;">
+              <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.4rem;">
+                <strong style="font-size: 0.85rem;">Design Proofs (Proof/{Lang}/{Committee})</strong>
+              </div>
+              <div id="adm-view-proofs-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 120px; overflow-y: auto;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">No design proofs uploaded.</p>
+              </div>
+            </div>
+
+            <!-- Versions Section -->
+            <div class="card" style="padding: 0.85rem;">
+              <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.4rem;">
+                <strong style="font-size: 0.85rem;">Poster Version History</strong>
+              </div>
+              <div id="adm-view-versions-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 140px; overflow-y: auto;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">No version iterations.</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
+              <button type="button" class="btn btn-outline-danger btn-sm" onclick="openRevisionFromAdmin()">Request Revision</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('admin-request-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBCOMMITTEE MODAL (PARTS 21, 22, 23) -->
+  <div class="modal-backdrop" id="subcommittee-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="subcommittee-modal-title">Add Sub-Committee</h3>
+        <button type="button" class="modal-close" onclick="closeModal('subcommittee-modal')">&times;</button>
+      </div>
+      <form id="subcommittee-form">
+        <input type="hidden" id="subc-id" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="subc-name">Sub-Committee Name <span class="required">*</span></label>
+            <input type="text" id="subc-name" class="form-control" required placeholder="e.g. Arabic Wing" />
+          </div>
+          <div class="form-group">
+            <label for="subc-parent">Main Committee (Optional / Parent)</label>
+            <input type="text" id="subc-parent" class="form-control" placeholder="e.g. Literary & Cultural Committee" />
+            <div class="form-hint">Users assigned to this Main Committee will automatically appear under this Sub-Committee.</div>
+          </div>
+          <div class="form-group">
+            <label for="subc-desc">Description</label>
+            <textarea id="subc-desc" class="form-control" rows="2" placeholder="Mandate, activities, departments..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="subc-default-designer">Default Designer (Auto-routes requests)</label>
+            <select id="subc-default-designer" class="form-control">
+              <option value="">Unassigned</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('subcommittee-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Sub-Committee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CLASS UNION MODAL (PART 27) -->
+  <div class="modal-backdrop" id="classunion-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="classunion-modal-title">Add Class Union</h3>
+        <button type="button" class="modal-close" onclick="closeModal('classunion-modal')">&times;</button>
+      </div>
+      <form id="classunion-form">
+        <input type="hidden" id="cu-id" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cu-name">Class Union Name <span class="required">*</span></label>
+            <input type="text" id="cu-name" class="form-control" required placeholder="e.g. Class Union 2026" />
+          </div>
+          <div class="form-group">
+            <label for="cu-desc">Description</label>
+            <textarea id="cu-desc" class="form-control" rows="2" placeholder="Year group representation..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('classunion-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Class Union</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT DESIGNER ASSIGNMENT MODAL (PART 24) -->
+  <div class="modal-backdrop" id="edit-assignment-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit Default Designer</h3>
+        <button type="button" class="modal-close" onclick="closeModal('edit-assignment-modal')">&times;</button>
+      </div>
+      <form id="assignment-edit-form">
+        <input type="hidden" id="asgn-committee-id" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Sub-Committee</label>
+            <input type="text" id="asgn-committee-name" class="form-control form-control-readonly" readonly />
+          </div>
+          <div class="form-group">
+            <label for="asgn-designer-select">Select Default Designer</label>
+            <select id="asgn-designer-select" class="form-control"></select>
+            <div class="form-hint">Future requests from this wing will route to this designer automatically.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-assignment-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CHANGE PASSWORD MODAL -->
+  <div class="modal-backdrop" id="change-password-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button type="button" class="modal-close" onclick="closeModal('change-password-modal')">&times;</button>
+      </div>
+      <form id="change-password-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cp-current">Current Password <span class="required">*</span></label>
+            <input type="password" id="cp-current" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="cp-new">New Password <span class="required">*</span></label>
+            <input type="password" id="cp-new" class="form-control" required minlength="6" />
+          </div>
+          <div class="form-group">
+            <label for="cp-confirm">Re-enter New Password <span class="required">*</span></label>
+            <input type="password" id="cp-confirm" class="form-control" required minlength="6" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('change-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-change-password">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module">
+    import {
+      initAuthListener,
+      handleSignOut,
+      adminApproveUserRequest,
+      adminRejectUserRequest,
+      adminApproveDesignerRequest,
+      adminRejectDesignerRequest,
+      adminCreateAccount,
+      adminAssignUsername,
+      adminAssignSubCommittee,
+      adminAssignCommitteeAndSubCommittees,
+      toggleUserActive,
+      adminOverrideDesigner,
+      adminSaveSubCommittee,
+      adminSaveClassUnion,
+      bootstrapSampleData,
+      exportToCsv,
+      exportFullJsonBackup,
+      handleChangePassword,
+      updateRequestStatus,
+      handleRequestRevision,
+      getGoogleDriveConfig,
+      saveGoogleDriveConfig,
+      getSubCommittees,
+      getClassUnions,
+      getDesignersList,
+      getStatusBadgeHtml,
+      getPriorityBadgeHtml,
+      getLanguageBadgeHtml,
+      formatDate,
+      showToast,
+      openModal,
+      closeModal,
+      listenToNotifications,
+      markNotificationAsRead
+    } from './app.js';
+    import { db, collection, query, orderBy, onSnapshot, getDocs } from './firebase.js';
+
+    let allUsers = [];
+    let userRequests = [];
+    let designers = [];
+    let designerRequests = [];
+    let monitors = [];
+    let subCommittees = [];
+    let classUnions = [];
+    let posterRequests = [];
+    let activityLogs = [];
+    let activeRequest = null;
+
+    window.toggleSidebar = () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    };
+
+    window.switchTab = (tabId) => {
+      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.style.display = 'block';
+
+      const navBtn = document.querySelector(`.nav-item[data-tab="${tabId}"]`);
+      if (navBtn) navBtn.classList.add('active');
+
+      const headings = {
+        'tab-dashboard': 'Dashboard Overview',
+        'tab-requests': 'Poster Requests',
+        'tab-users': 'Users Management',
+        'tab-user-requests': 'Pending User Requests',
+        'tab-designers': 'Designers Roster',
+        'tab-designer-requests': 'Pending Designer Requests',
+        'tab-monitors': 'Monitors Roster',
+        'tab-subcommittees': 'Sub-Committees',
+        'tab-classunions': 'Class Unions',
+        'tab-assignments': 'Designer Assignment Matrix',
+        'tab-notifications': 'Broadcast Notifications',
+        'tab-logs': 'Activity Logs & Audit',
+        'tab-backup': 'Backup & Data Export',
+        'tab-settings': 'Settings & Google Drive'
+      };
+      document.getElementById('page-heading').textContent = headings[tabId] || 'Administration';
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    };
+
+    // Initialize Auth Guard: Admin only
+    initAuthListener('admin');
+
+    window.onAppReady = (profile) => {
+      setupRealtimeSubscriptions();
+      loadDriveSettingsUI();
+      setupNotificationsListener(profile);
+    };
+
+    async function loadDriveSettingsUI() {
+      const cfg = await getGoogleDriveConfig();
+      if (cfg) {
+        if (document.getElementById('cfg-drive-webapp-url')) document.getElementById('cfg-drive-webapp-url').value = cfg.webAppUrl || '';
+        if (document.getElementById('cfg-drive-root-id')) document.getElementById('cfg-drive-root-id').value = cfg.rootFolderId || '';
+        if (document.getElementById('cfg-drive-root-url')) document.getElementById('cfg-drive-root-url').value = cfg.rootFolderUrl || '';
+      }
+    }
+
+    document.getElementById('drive-config-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const webAppUrl = document.getElementById('cfg-drive-webapp-url').value.trim();
+      const rootFolderId = document.getElementById('cfg-drive-root-id').value.trim();
+      const rootFolderUrl = document.getElementById('cfg-drive-root-url').value.trim();
+      const submitBtn = document.getElementById('btn-save-drive-config');
+
+      submitBtn.disabled = true;
+      try {
+        await saveGoogleDriveConfig({ webAppUrl, rootFolderId, rootFolderUrl });
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    window.testDriveConnection = async () => {
+      const url = document.getElementById('cfg-drive-webapp-url').value.trim();
+      if (!url || !url.startsWith('http') || url.includes('PASTE_APPS_SCRIPT_EXEC_URL_HERE')) {
+        showToast('Please enter your Google Apps Script Web App Exec URL first.', 'error');
+        return;
+      }
+      showToast('Testing Google Drive Web App endpoint connection...', 'info');
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ ping: true, time: Date.now() })
+        });
+        await res.json();
+        showToast('Google Apps Script bridge responded successfully!', 'success');
+      } catch (err) {
+        showToast('Bridge endpoint ping complete. Verify deployment if testing live uploads.', 'info');
+      }
+    };
+
+    function setupRealtimeSubscriptions() {
+      // 1. Users
+      onSnapshot(collection(db, 'users'), (snap) => {
+        allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        designers = allUsers.filter(u => u.role === 'designer');
+        monitors = allUsers.filter(u => u.role === 'monitor');
+        renderUsersTable();
+        renderDesignersTable();
+        renderMonitorsTable();
+        updateDashboardCounts();
+      });
+
+      // 2. User Requests
+      onSnapshot(collection(db, 'userRequests'), (snap) => {
+        userRequests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderUserRequestsTable();
+        updateDashboardCounts();
+      });
+
+      // 3. Designer Requests
+      onSnapshot(collection(db, 'designerRequests'), (snap) => {
+        designerRequests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderDesignerRequestsTable();
+        updateDashboardCounts();
+      });
+
+      // 4. Sub-Committees
+      onSnapshot(collection(db, 'subCommittees'), (snap) => {
+        subCommittees = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderSubCommitteesTable();
+        renderAssignmentsTable();
+        populateSubCommitteeDropdowns();
+      });
+
+      // 5. Class Unions
+      onSnapshot(collection(db, 'classUnions'), (snap) => {
+        classUnions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderClassUnionsTable();
+      });
+
+      // 6. Poster Requests
+      onSnapshot(query(collection(db, 'requests'), orderBy('createdAt', 'desc')), (snap) => {
+        posterRequests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAdminRequestsTable(posterRequests);
+        renderRecentRequestsTable(posterRequests);
+        updateDashboardCounts();
+
+        if (activeRequest) {
+          const fresh = posterRequests.find(r => r.id === activeRequest.id);
+          if (fresh) renderAdminRequestModal(fresh);
+        }
+
+        // Migrate any legacy automatic assignments to ensure they require explicit Admin assignment
+        snap.docs.forEach(async (d) => {
+          const data = d.data();
+          if (data.assignmentType === 'automatic') {
+            try {
+              await updateDoc(doc(db, 'requests', d.id), {
+                designerId: '',
+                designerName: 'Unassigned',
+                assignmentType: 'unassigned',
+                assignedByAdmin: false,
+                updatedAt: new Date().toISOString()
+              });
+            } catch (_) {}
+          }
+        });
+      });
+
+      // 7. Activity Logs
+      onSnapshot(query(collection(db, 'activityLogs'), orderBy('timestamp', 'desc'), limit(50)), (snap) => {
+        activityLogs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderLogsTimeline(activityLogs);
+      });
+    }
+
+    function updateDashboardCounts() {
+      const pendingUsers = userRequests.filter(r => r.status === 'pending').length;
+      const pendingDes = designerRequests.filter(r => r.status === 'pending').length;
+
+      document.getElementById('stat-total-users').textContent = allUsers.filter(u => u.role === 'user').length;
+      document.getElementById('stat-total-designers').textContent = designers.length;
+      document.getElementById('stat-total-monitors').textContent = monitors.length;
+      document.getElementById('stat-pending-user-reqs').textContent = pendingUsers;
+      document.getElementById('stat-pending-des-reqs').textContent = pendingDes;
+
+      document.getElementById('stat-total-requests').textContent = posterRequests.length;
+      document.getElementById('stat-pending-requests').textContent = posterRequests.filter(r => r.status === 'Submitted' || r.status === 'Under Review').length;
+      document.getElementById('stat-uploaded-posters').textContent = posterRequests.filter(r => r.status === 'Poster Uploaded' || r.status === 'Designing').length;
+      document.getElementById('stat-revision-requests').textContent = posterRequests.filter(r => r.status === 'Revision Required').length;
+      document.getElementById('stat-completed-requests').textContent = posterRequests.filter(r => r.status === 'Final' || r.status === 'Completed').length;
+
+      const bUser = document.getElementById('badge-pending-user-reqs');
+      if (bUser) {
+        bUser.textContent = pendingUsers;
+        bUser.style.display = pendingUsers > 0 ? 'inline-block' : 'none';
+      }
+      const bDes = document.getElementById('badge-pending-des-reqs');
+      if (bDes) {
+        bDes.textContent = pendingDes;
+        bDes.style.display = pendingDes > 0 ? 'inline-block' : 'none';
+      }
+    }
+
+    // Helper to test if a user belongs to a target Sub-Committee (directly or via parent committee inheritance)
+    function userMatchesSubCommittee(user, targetSubName, targetSubId) {
+      if (!targetSubName && !targetSubId) return true;
+      const targetNorm = (targetSubName || '').trim().toLowerCase();
+
+      // 1. Direct sub-committee assignment
+      if (targetSubId && user.subCommitteeId === targetSubId) return true;
+      if (user.subCommitteeName && user.subCommitteeName.trim().toLowerCase() === targetNorm) return true;
+
+      // 2. Stored inherited sub-committees list
+      if (user.inheritedSubCommittees && user.inheritedSubCommittees.some(s => s.trim().toLowerCase() === targetNorm)) return true;
+      if (targetSubId && user.inheritedSubCommitteeIds && user.inheritedSubCommitteeIds.includes(targetSubId)) return true;
+
+      // 3. Dynamic relationship synchronization with parent committee
+      const subObj = subCommittees.find(s => (targetSubId && s.id === targetSubId) || (s.name && s.name.trim().toLowerCase() === targetNorm));
+      if (subObj && subObj.parentCommittee && subObj.parentCommittee.trim()) {
+        const parentNorm = subObj.parentCommittee.trim().toLowerCase();
+        if (user.committeeName && user.committeeName.trim().toLowerCase() === parentNorm) return true;
+        if (user.subCommitteeName && user.subCommitteeName.trim().toLowerCase() === parentNorm) return true;
+      }
+
+      return false;
+    }
+
+    // Filter user accounts based on search query and subcommittee selection
+    window.filterUserAccountsTable = () => {
+      const q = (document.getElementById('user-mgmt-search')?.value || '').trim().toLowerCase();
+      const commFilter = document.getElementById('user-mgmt-comm-filter')?.value || '';
+
+      const filtered = allUsers.filter(u => {
+        // Search text matching
+        const matchQ = !q || 
+          (u.name || '').toLowerCase().includes(q) ||
+          (u.username || '').toLowerCase().includes(q) ||
+          (u.email || '').toLowerCase().includes(q) ||
+          (u.committeeName || '').toLowerCase().includes(q) ||
+          (u.subCommitteeName || '').toLowerCase().includes(q);
+
+        if (!matchQ) return false;
+
+        // Committee / Subcommittee matching
+        if (!commFilter) return true;
+
+        if (commFilter.startsWith('parent:')) {
+          const parentName = commFilter.substring(7).trim().toLowerCase();
+          const userComm = (u.committeeName || u.subCommitteeName || '').trim().toLowerCase();
+          return userComm === parentName;
+        }
+
+        if (commFilter.startsWith('sub:')) {
+          const subId = commFilter.substring(4);
+          const subObj = subCommittees.find(s => s.id === subId);
+          return userMatchesSubCommittee(u, subObj?.name || '', subId);
+        }
+
+        return true;
+      });
+
+      renderUsersTable(filtered);
+    };
+
+    window.resetUserAccountsFilter = () => {
+      const s = document.getElementById('user-mgmt-search');
+      if (s) s.value = '';
+      const f = document.getElementById('user-mgmt-comm-filter');
+      if (f) f.value = '';
+      renderUsersTable(allUsers);
+    };
+
+    window.filterUsersBySubCommittee = (subName) => {
+      switchTab('tab-users');
+      const sel = document.getElementById('user-mgmt-comm-filter');
+      if (sel) {
+        const opt = Array.from(sel.options).find(o => 
+          (o.getAttribute('data-name') && o.getAttribute('data-name').toLowerCase() === subName.toLowerCase()) ||
+          o.text.toLowerCase().includes(subName.toLowerCase())
+        );
+        if (opt) {
+          sel.value = opt.value;
+        }
+      }
+      filterUserAccountsTable();
+    };
+
+    // Users Table
+    function renderUsersTable(usersToRender = null) {
+      const tbody = document.getElementById('admin-users-tbody');
+      if (!tbody) return;
+
+      const usersList = usersToRender !== null ? usersToRender : allUsers;
+
+      if (!usersList || usersList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-state">No user accounts found matching criteria.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = usersList.map(u => {
+        const mainComm = u.committeeName ? u.committeeName.trim() : '';
+        const subComm = u.subCommitteeName ? u.subCommitteeName.trim() : '';
+
+        // Dynamically compute all subcommittees belonging to this user's parent committee
+        let subList = Array.isArray(u.inheritedSubCommittees) ? [...u.inheritedSubCommittees] : [];
+        if (mainComm) {
+          const matchingSubs = subCommittees
+            .filter(sc => sc.parentCommittee && sc.parentCommittee.trim().toLowerCase() === mainComm.toLowerCase())
+            .map(sc => sc.name);
+          matchingSubs.forEach(sName => {
+            if (!subList.some(x => x.toLowerCase() === sName.toLowerCase())) {
+              subList.push(sName);
+            }
+          });
+        }
+
+        let commDisplayHtml = '';
+        if (mainComm) {
+          const subDetails = subList.length > 0 
+            ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; line-height:1.35;">
+                 <span style="font-weight:600; color:var(--text-main);">Subcommittees (${subList.length}):</span> ${subList.join(', ')}
+               </div>`
+            : '';
+          commDisplayHtml = `
+            <div>
+              <strong style="color:var(--primary); font-size:0.88rem;">${mainComm}</strong>
+              <span class="badge" style="background:var(--accent-teal-subtle); color:var(--primary); font-size:0.68rem; margin-left:4px;">Main Committee</span>
+            </div>
+            ${subDetails}
+          `;
+        } else if (subComm) {
+          commDisplayHtml = `
+            <div>
+              <strong style="font-size:0.88rem;">${subComm}</strong>
+              <span class="badge" style="background:#f3f4f6; color:var(--text-main); font-size:0.68rem; margin-left:4px;">Sub-Committee</span>
+            </div>
+          `;
+        } else {
+          commDisplayHtml = `<span style="color:var(--text-light); font-size:0.85rem;">None / General</span>`;
+        }
+
+        return `
+        <tr>
+          <td><strong>${u.name || '—'}</strong></td>
+          <td>
+            ${u.username ? `<span style="font-family:monospace; font-weight:700; color:var(--primary);">@${u.username}</span>` : `<button class="btn btn-secondary btn-sm" onclick="openAssignUsernameModal('${u.id}', '${u.email}')">+ Assign Username</button>`}
+          </td>
+          <td>${u.email}</td>
+          <td>${commDisplayHtml}</td>
+          <td>
+            <span class="badge ${u.active !== false ? 'badge-completed' : 'badge-urgent'}">
+              ${u.active !== false ? 'Active' : 'Disabled'}
+            </span>
+          </td>
+          <td>${formatDate(u.createdAt)}</td>
+          <td>
+            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="openAssignCommitteeModal('${u.id}')">
+                Assign Committee
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="handleToggleActive('${u.id}', ${u.active !== false})">
+                ${u.active !== false ? 'Disable' : 'Enable'}
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+      }).join('');
+    }
+
+    window.openAssignCommitteeModal = (uid) => {
+      const u = allUsers.find(x => x.id === uid);
+      if (!u) return;
+      document.getElementById('asgn-comm-userid').value = uid;
+      document.getElementById('asgn-comm-userinfo').value = `${u.name || 'User'} (${u.email}) ${u.username ? '@' + u.username : ''}`;
+      
+      const currentText = u.committeeName || u.subCommitteeName || 'None';
+      const subInfo = u.inheritedSubCommittees?.length ? ` (Includes: ${u.inheritedSubCommittees.join(', ')})` : '';
+      document.getElementById('asgn-comm-current').textContent = currentText + subInfo;
+
+      // Group subcommittees by parent committee
+      const select = document.getElementById('asgn-comm-select');
+      const parentGroups = {};
+      const standalone = [];
+
+      subCommittees.forEach(sc => {
+        if (sc.parentCommittee && sc.parentCommittee.trim()) {
+          const p = sc.parentCommittee.trim();
+          if (!parentGroups[p]) parentGroups[p] = [];
+          parentGroups[p].push(sc);
+        } else {
+          standalone.push(sc);
+        }
+      });
+
+      let optionsHtml = '<option value="">-- Remove Committee Assignment --</option>';
+
+      // Main Committees optgroup
+      const parentNames = Object.keys(parentGroups);
+      if (parentNames.length > 0) {
+        optionsHtml += '<optgroup label="Main Committees (Auto-synchronizes to all subcommittees)">';
+        parentNames.forEach(pName => {
+          const subs = parentGroups[pName];
+          const isSelected = u.committeeName === pName;
+          optionsHtml += `<option value="parent:${pName}" ${isSelected ? 'selected' : ''}>${pName} (${subs.length} sub-committee${subs.length > 1 ? 's' : ''}: ${subs.map(s => s.name).join(', ')})</option>`;
+        });
+        optionsHtml += '</optgroup>';
+      }
+
+      // Individual Sub-Committees optgroup
+      optionsHtml += '<optgroup label="Individual Sub-Committees">';
+      subCommittees.forEach(sc => {
+        const isSelected = (!u.committeeName || u.committeeName !== sc.parentCommittee) && (u.subCommitteeId === sc.id || u.subCommitteeName === sc.name);
+        const parentTag = sc.parentCommittee ? ` [Under ${sc.parentCommittee}]` : '';
+        optionsHtml += `<option value="sub:${sc.id}" ${isSelected ? 'selected' : ''}>${sc.name}${parentTag}</option>`;
+      });
+      optionsHtml += '</optgroup>';
+
+      select.innerHTML = optionsHtml;
+      openModal('assign-committee-modal');
+    };
+
+    window.handleRemoveCommitteeAssignment = async () => {
+      const uid = document.getElementById('asgn-comm-userid').value;
+      if (!uid) return;
+      if (confirm('Remove committee and subcommittee assignments for this user?')) {
+        await adminAssignCommitteeAndSubCommittees(uid, {
+          committeeId: '',
+          committeeName: '',
+          subCommitteeId: '',
+          subCommitteeName: '',
+          inheritedSubCommittees: [],
+          inheritedSubCommitteeIds: []
+        });
+        closeModal('assign-committee-modal');
+      }
+    };
+
+    document.getElementById('assign-committee-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const uid = document.getElementById('asgn-comm-userid').value;
+      const val = document.getElementById('asgn-comm-select').value;
+      const btn = document.getElementById('btn-save-user-comm');
+      btn.disabled = true;
+
+      try {
+        if (!val) {
+          await adminAssignCommitteeAndSubCommittees(uid, {
+            committeeId: '',
+            committeeName: '',
+            subCommitteeId: '',
+            subCommitteeName: '',
+            inheritedSubCommittees: [],
+            inheritedSubCommitteeIds: []
+          });
+        } else if (val.startsWith('parent:')) {
+          const parentName = val.substring(7);
+          const matchingSubs = subCommittees.filter(sc => sc.parentCommittee && sc.parentCommittee.trim().toLowerCase() === parentName.toLowerCase());
+          await adminAssignCommitteeAndSubCommittees(uid, {
+            committeeId: '',
+            committeeName: parentName,
+            subCommitteeId: '',
+            subCommitteeName: parentName,
+            inheritedSubCommittees: matchingSubs.map(s => s.name),
+            inheritedSubCommitteeIds: matchingSubs.map(s => s.id)
+          });
+        } else if (val.startsWith('sub:')) {
+          const subId = val.substring(4);
+          const sub = subCommittees.find(sc => sc.id === subId);
+          if (sub) {
+            await adminAssignCommitteeAndSubCommittees(uid, {
+              committeeId: '',
+              committeeName: sub.parentCommittee || '',
+              subCommitteeId: sub.id,
+              subCommitteeName: sub.name,
+              inheritedSubCommittees: [sub.name],
+              inheritedSubCommitteeIds: [sub.id]
+            });
+          }
+        }
+        closeModal('assign-committee-modal');
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    window.openAssignUsernameModal = (uid, email) => {
+      document.getElementById('asgn-uname-userid').value = uid;
+      document.getElementById('asgn-uname-useremail').value = email;
+      document.getElementById('asgn-uname-newname').value = '';
+      openModal('assign-username-modal');
+    };
+
+    document.getElementById('assign-username-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const uid = document.getElementById('asgn-uname-userid').value;
+      const uname = document.getElementById('asgn-uname-newname').value.trim();
+      try {
+        await adminAssignUsername(uid, uname);
+        closeModal('assign-username-modal');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    });
+
+    window.handleToggleActive = async (uid, currentActive) => {
+      if (confirm(`Are you sure you want to ${currentActive ? 'disable' : 'enable'} this account?`)) {
+        await toggleUserActive(uid, currentActive);
+      }
+    };
+
+    // User Requests Table (Approval Workflow Part 16 & 21)
+    function renderUserRequestsTable() {
+      const tbody = document.getElementById('admin-user-reqs-tbody');
+      if (!tbody) return;
+      if (userRequests.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="empty-state">No pending registrations.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = userRequests.map(r => `
+        <tr>
+          <td><strong style="font-family:monospace;">@${r.username || '—'}</strong></td>
+          <td><strong>${r.committeeName}</strong></td>
+          <td>${r.chairman}</td>
+          <td>${r.convenor}</td>
+          <td>${r.email1}</td>
+          <td>${formatDate(r.createdAt)}</td>
+          <td><span class="badge ${r.status === 'approved' ? 'badge-completed' : r.status === 'rejected' ? 'badge-urgent' : 'badge-submitted'}">${r.status}</span></td>
+          <td>
+            ${r.status === 'pending' ? `
+              <div style="display:flex; gap:0.35rem;">
+                <button class="btn btn-primary btn-sm" onclick="openApproveUserModal('${r.id}')">Review & Approve</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="handleRejectUser('${r.id}')">Reject</button>
+              </div>
+            ` : 'Processed'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.openApproveUserModal = (reqId) => {
+      const r = userRequests.find(x => x.id === reqId);
+      if (!r) return;
+      document.getElementById('appr-req-id').value = reqId;
+      document.getElementById('appr-info-username').textContent = `@${r.username}`;
+      document.getElementById('appr-info-comm').textContent = r.committeeName;
+      document.getElementById('appr-info-chair').textContent = r.chairman;
+      document.getElementById('appr-info-conv').textContent = r.convenor;
+      document.getElementById('appr-info-email').textContent = r.email1;
+      document.getElementById('appr-subcommittee-name').value = r.committeeName;
+
+      // Populate datalist with existing subcommittees
+      const dl = document.getElementById('existing-subc-datalist');
+      dl.innerHTML = subCommittees.map(c => `<option value="${c.name}"></option>`).join('');
+
+      openModal('approve-user-modal');
+    };
+
+    document.getElementById('approve-user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const reqId = document.getElementById('appr-req-id').value;
+      const subcName = document.getElementById('appr-subcommittee-name').value.trim();
+      const btn = document.getElementById('btn-confirm-approve-user');
+      await adminApproveUserRequest(reqId, subcName, btn);
+      closeModal('approve-user-modal');
+    });
+
+    window.handleRejectUser = async (id) => {
+      if (confirm('Reject this registration application?')) {
+        await adminRejectUserRequest(id);
+      }
+    };
+
+    // Designers Table
+    function renderDesignersTable() {
+      const tbody = document.getElementById('admin-designers-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = designers.map(d => `
+        <tr>
+          <td><strong>${d.name || '—'}</strong></td>
+          <td>
+            <strong style="font-family:monospace; color:var(--primary);">@${d.username || '—'}</strong>
+          </td>
+          <td>${d.email}</td>
+          <td>${d.contactNumber || '—'}</td>
+          <td><span class="badge ${d.active !== false ? 'badge-completed' : 'badge-urgent'}">${d.active !== false ? 'Active' : 'Disabled'}</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="handleToggleActive('${d.id}', ${d.active !== false})">
+              ${d.active !== false ? 'Disable' : 'Enable'}
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Designer Requests Table
+    function renderDesignerRequestsTable() {
+      const tbody = document.getElementById('admin-des-reqs-tbody');
+      if (!tbody) return;
+      if (designerRequests.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-state">No designer applications.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = designerRequests.map(r => `
+        <tr>
+          <td><strong style="font-family:monospace; color:var(--primary);">@${r.username || '—'}</strong></td>
+          <td><strong>${r.name}</strong></td>
+          <td>${r.email}</td>
+          <td>${r.contactNumber || '—'}</td>
+          <td>${formatDate(r.createdAt)}</td>
+          <td><span class="badge ${r.status === 'approved' ? 'badge-completed' : r.status === 'rejected' ? 'badge-urgent' : 'badge-submitted'}">${r.status}</span></td>
+          <td>
+            ${r.status === 'pending' ? `
+              <div style="display:flex; gap:0.35rem;">
+                <button class="btn btn-primary btn-sm" onclick="handleApproveDesigner('${r.id}', this)">Approve</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="handleRejectDesigner('${r.id}')">Reject</button>
+              </div>
+            ` : 'Processed'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.handleApproveDesigner = async (id, btn) => {
+      await adminApproveDesignerRequest(id, btn);
+    };
+    window.handleRejectDesigner = async (id) => {
+      if (confirm('Reject this application?')) {
+        await adminRejectDesignerRequest(id);
+      }
+    };
+
+    // Monitors Table
+    function renderMonitorsTable() {
+      const tbody = document.getElementById('admin-monitors-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = monitors.map(m => `
+        <tr>
+          <td><strong>${m.name || 'Monitor User'}</strong></td>
+          <td>${m.email}</td>
+          <td><span class="badge ${m.active !== false ? 'badge-completed' : 'badge-urgent'}">${m.active !== false ? 'Active' : 'Disabled'}</span></td>
+          <td>${formatDate(m.createdAt)}</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="handleToggleActive('${m.id}', ${m.active !== false})">
+              ${m.active !== false ? 'Disable' : 'Enable'}
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Sub-Committees Table (Part 22)
+    function renderSubCommitteesTable() {
+      const tbody = document.getElementById('admin-subcommittees-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = subCommittees.map(c => {
+        const userCount = allUsers.filter(u => {
+          if (u.subCommitteeId === c.id) return true;
+          if (u.subCommitteeName && u.subCommitteeName.toLowerCase() === c.name.toLowerCase()) return true;
+          if (c.parentCommittee && u.committeeName && u.committeeName.toLowerCase() === c.parentCommittee.toLowerCase()) return true;
+          if (u.inheritedSubCommitteeIds && u.inheritedSubCommitteeIds.includes(c.id)) return true;
+          if (u.inheritedSubCommittees && u.inheritedSubCommittees.some(s => s.toLowerCase() === c.name.toLowerCase())) return true;
+          return false;
+        }).length;
+        return `
+          <tr>
+            <td>
+              <strong>${c.name}</strong>
+              ${c.parentCommittee ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Main Committee: <strong>${c.parentCommittee}</strong></div>` : ''}
+            </td>
+            <td>${c.defaultDesignerName ? `<strong>${c.defaultDesignerName}</strong>` : '<span style="color:var(--text-light)">Unassigned</span>'}</td>
+            <td>
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <span class="badge" style="background:var(--accent-teal-subtle); color:var(--primary); font-weight:600;">${userCount} Users</span>
+                <button class="btn btn-secondary btn-sm" style="font-size:0.72rem; padding:2px 7px;" onclick="filterUsersBySubCommittee('${c.name}')" title="Filter User Accounts for ${c.name}">View Users</button>
+              </div>
+            </td>
+            <td><span class="badge ${c.active !== false ? 'badge-completed' : 'badge-urgent'}">${c.active !== false ? 'Active' : 'Disabled'}</span></td>
+            <td>
+              <div style="display:flex; gap:0.35rem;">
+                <button class="btn btn-secondary btn-sm" onclick="editSubCommittee('${c.id}')">Edit</button>
+                <button class="btn btn-secondary btn-sm" onclick="openAssignmentEditModal('${c.id}', '${c.name}', '${c.defaultDesignerId || ''}')">Set Designer</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Class Unions Table
+    function renderClassUnionsTable() {
+      const tbody = document.getElementById('admin-classunions-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = classUnions.map(cu => `
+        <tr>
+          <td><strong>${cu.name}</strong></td>
+          <td>${cu.description || '—'}</td>
+          <td><span class="badge ${cu.active !== false ? 'badge-completed' : 'badge-urgent'}">${cu.active !== false ? 'Active' : 'Disabled'}</span></td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="editClassUnion('${cu.id}')">Edit</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Designer Assignment Table (Part 24)
+    function renderAssignmentsTable() {
+      const tbody = document.getElementById('admin-assignments-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = subCommittees.map(c => `
+        <tr>
+          <td><strong>${c.name}</strong></td>
+          <td>${c.defaultDesignerName ? `<strong>${c.defaultDesignerName}</strong>` : '<span style="color:var(--text-light)">Unassigned</span>'}</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="openAssignmentEditModal('${c.id}', '${c.name}', '${c.defaultDesignerId || ''}')">Edit Designer</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.openAssignmentEditModal = (id, name, currentDesignerId) => {
+      document.getElementById('asgn-committee-id').value = id;
+      document.getElementById('asgn-committee-name').value = name;
+      const select = document.getElementById('asgn-designer-select');
+      select.innerHTML = '<option value="">None (Unassigned)</option>' + designers.map(d => `
+        <option value="${d.id}" ${d.id === currentDesignerId ? 'selected' : ''}>${d.name} (${d.username ? '@' + d.username + ' • ' : ''}${d.email})</option>
+      `).join('');
+      openModal('edit-assignment-modal');
+    };
+
+    document.getElementById('assignment-edit-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const committeeId = document.getElementById('asgn-committee-id').value;
+      const designerSelect = document.getElementById('asgn-designer-select');
+      const designerId = designerSelect.value;
+      const designerName = designerSelect.options[designerSelect.selectedIndex]?.text.split(' (')[0] || '';
+
+      const target = subCommittees.find(c => c.id === committeeId);
+      if (target) {
+        await adminSaveSubCommittee(committeeId, {
+          name: target.name,
+          description: target.description,
+          defaultDesignerId: designerId,
+          defaultDesignerName: designerName,
+          active: target.active
+        });
+      }
+      closeModal('edit-assignment-modal');
+    });
+
+    // Sub-Committee Form
+    window.openSubCommitteeModal = () => {
+      document.getElementById('subcommittee-modal-title').textContent = 'Add Sub-Committee';
+      document.getElementById('subc-id').value = '';
+      document.getElementById('subc-parent').value = '';
+      document.getElementById('subcommittee-form').reset();
+      populateDefaultDesignerSelect('');
+      openModal('subcommittee-modal');
+    };
+
+    window.editSubCommittee = (id) => {
+      const c = subCommittees.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('subcommittee-modal-title').textContent = 'Edit Sub-Committee';
+      document.getElementById('subc-id').value = c.id;
+      document.getElementById('subc-name').value = c.name;
+      document.getElementById('subc-parent').value = c.parentCommittee || '';
+      document.getElementById('subc-desc').value = c.description || '';
+      populateDefaultDesignerSelect(c.defaultDesignerId || '');
+      openModal('subcommittee-modal');
+    };
+
+    function populateDefaultDesignerSelect(selectedId) {
+      const sel = document.getElementById('subc-default-designer');
+      sel.innerHTML = '<option value="">Unassigned</option>' + designers.map(d => `
+        <option value="${d.id}" ${d.id === selectedId ? 'selected' : ''}>${d.name} (${d.username ? '@' + d.username + ' • ' : ''}${d.email})</option>
+      `).join('');
+    }
+
+    document.getElementById('subcommittee-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('subc-id').value;
+      const designerSelect = document.getElementById('subc-default-designer');
+      const data = {
+        name: document.getElementById('subc-name').value.trim(),
+        parentCommittee: document.getElementById('subc-parent').value.trim(),
+        description: document.getElementById('subc-desc').value.trim(),
+        defaultDesignerId: designerSelect.value,
+        defaultDesignerName: designerSelect.value ? designerSelect.options[designerSelect.selectedIndex].text.split(' (')[0] : '',
+        active: true
+      };
+      await adminSaveSubCommittee(id, data);
+    });
+
+    // Class Union Form
+    window.openClassUnionModal = () => {
+      document.getElementById('classunion-modal-title').textContent = 'Add Class Union';
+      document.getElementById('cu-id').value = '';
+      document.getElementById('classunion-form').reset();
+      openModal('classunion-modal');
+    };
+
+    window.editClassUnion = (id) => {
+      const cu = classUnions.find(x => x.id === id);
+      if (!cu) return;
+      document.getElementById('classunion-modal-title').textContent = 'Edit Class Union';
+      document.getElementById('cu-id').value = cu.id;
+      document.getElementById('cu-name').value = cu.name;
+      document.getElementById('cu-desc').value = cu.description || '';
+      openModal('classunion-modal');
+    };
+
+    document.getElementById('classunion-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('cu-id').value;
+      const data = {
+        name: document.getElementById('cu-name').value.trim(),
+        description: document.getElementById('cu-desc').value.trim(),
+        active: true
+      };
+      await adminSaveClassUnion(id, data);
+    });
+
+    // Admin Requests Table
+    function renderAdminRequestsTable(requests) {
+      const tbody = document.getElementById('admin-requests-tbody');
+      if (!tbody) return;
+      if (requests.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="empty-state">No poster requests found.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = requests.map(r => {
+        const isAssigned = !!(r.designerId && r.designerId !== 'Unassigned' && (r.assignmentType === 'admin_assigned' || r.assignmentType === 'admin_override' || r.assignedByAdmin));
+        return `
+        <tr>
+          <td><strong>${r.requestId}</strong></td>
+          <td>${getLanguageBadgeHtml(r.language)}</td>
+          <td>${r.subCommitteeName || '—'}</td>
+          <td style="font-weight: 600;">${r.mainHeading}</td>
+          <td>${formatDate(r.deadline)}</td>
+          <td>${isAssigned ? r.designerName : '<span class="badge" style="background:#fef3c7; color:#92400e;">Unassigned</span>'}</td>
+          <td>${getStatusBadgeHtml(r.status)}</td>
+          <td>
+            ${r.poster?.fileName ? `<span class="badge badge-drive">${r.poster.fileName}</span>` : '<span style="color:var(--text-light)">None</span>'}
+          </td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="viewAdminRequestDetails('${r.id}')">Manage</button>
+          </td>
+        </tr>
+      `;
+      }).join('');
+    }
+
+    function renderRecentRequestsTable(requests) {
+      const tbody = document.getElementById('dash-recent-reqs-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = requests.slice(0, 6).map(r => `
+        <tr>
+          <td><strong>${r.requestId}</strong></td>
+          <td>${getLanguageBadgeHtml(r.language)}</td>
+          <td>${r.subCommitteeName || '—'}</td>
+          <td style="font-weight: 600;">${r.mainHeading}</td>
+          <td>${getStatusBadgeHtml(r.status)}</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="viewAdminRequestDetails('${r.id}')">Review</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.filterAdminRequests = () => {
+      const q = (document.getElementById('admin-req-search')?.value || '').toLowerCase();
+      const status = document.getElementById('adm-filter-status')?.value || '';
+      const priority = document.getElementById('adm-filter-priority')?.value || '';
+      const committee = document.getElementById('adm-filter-committee')?.value || '';
+
+      const filtered = posterRequests.filter(r => {
+        const matchQ = (r.mainHeading || '').toLowerCase().includes(q) ||
+                       (r.posterId || '').toLowerCase().includes(q) ||
+                       (r.requestId || '').toLowerCase().includes(q) ||
+                       (r.userName || '').toLowerCase().includes(q) ||
+                       (r.subCommitteeName || '').toLowerCase().includes(q);
+        const matchStatus = !status || r.status === status;
+        const matchPriority = !priority || r.priority === priority;
+        const matchComm = !committee || r.subCommitteeName === committee;
+        return matchQ && matchStatus && matchPriority && matchComm;
+      });
+
+      renderAdminRequestsTable(filtered);
+    };
+
+    function populateSubCommitteeDropdowns() {
+      // Group subcommittees by parent committee
+      const parentGroups = {};
+      const standalone = [];
+
+      subCommittees.forEach(sc => {
+        if (sc.parentCommittee && sc.parentCommittee.trim()) {
+          const p = sc.parentCommittee.trim();
+          if (!parentGroups[p]) parentGroups[p] = [];
+          parentGroups[p].push(sc);
+        } else {
+          standalone.push(sc);
+        }
+      });
+
+      const filterSel = document.getElementById('adm-filter-committee');
+      if (filterSel) {
+        let fHtml = '<option value="">All Sub-Committees & Committees</option>';
+        const pNames = Object.keys(parentGroups);
+        if (pNames.length > 0) {
+          fHtml += '<optgroup label="Main Committees">';
+          pNames.forEach(p => {
+            fHtml += `<option value="${p}">${p} (Main Committee)</option>`;
+          });
+          fHtml += '</optgroup>';
+        }
+        fHtml += '<optgroup label="Sub-Committees">';
+        subCommittees.forEach(c => {
+          fHtml += `<option value="${c.name}">${c.name}</option>`;
+        });
+        fHtml += '</optgroup>';
+        filterSel.innerHTML = fHtml;
+      }
+
+      const userSel = document.getElementById('newu-subcommittee');
+      if (userSel) {
+        let uHtml = '<option value="">None / General</option>';
+        const pNames = Object.keys(parentGroups);
+        if (pNames.length > 0) {
+          uHtml += '<optgroup label="Main Committees (Auto-synchronizes to all subcommittees)">';
+          pNames.forEach(p => {
+            const subs = parentGroups[p];
+            uHtml += `<option value="parent:${p}">${p} (${subs.length} sub-committees: ${subs.map(s => s.name).join(', ')})</option>`;
+          });
+          uHtml += '</optgroup>';
+        }
+        uHtml += '<optgroup label="Individual Sub-Committees">';
+        subCommittees.forEach(c => {
+          const parentTag = c.parentCommittee ? ` [Under ${c.parentCommittee}]` : '';
+          uHtml += `<option value="sub:${c.id}" data-name="${c.name}">${c.name}${parentTag}</option>`;
+        });
+        uHtml += '</optgroup>';
+        userSel.innerHTML = uHtml;
+      }
+
+      // Subcommittee Menu Filter in User Accounts section
+      const userFilterSel = document.getElementById('user-mgmt-comm-filter');
+      if (userFilterSel) {
+        let ufHtml = '<option value="">All Committees & Sub-Committees</option>';
+        const pNames = Object.keys(parentGroups);
+        if (pNames.length > 0) {
+          ufHtml += '<optgroup label="Main Committees">';
+          pNames.forEach(p => {
+            ufHtml += `<option value="parent:${p}">${p} (Main Committee)</option>`;
+          });
+          ufHtml += '</optgroup>';
+        }
+        ufHtml += '<optgroup label="Sub-Committees (Shows direct & auto-inherited users)">';
+        subCommittees.forEach(c => {
+          const parentTag = c.parentCommittee ? ` [Under ${c.parentCommittee}]` : '';
+          ufHtml += `<option value="sub:${c.id}" data-name="${c.name}">${c.name}${parentTag}</option>`;
+        });
+        ufHtml += '</optgroup>';
+        const curVal = userFilterSel.value;
+        userFilterSel.innerHTML = ufHtml;
+        if (curVal) userFilterSel.value = curVal;
+      }
+    }
+
+    // View Request Details in Admin Modal
+    window.viewAdminRequestDetails = async (id) => {
+      const req = posterRequests.find(r => r.id === id);
+      if (!req) return;
+      activeRequest = req;
+      renderAdminRequestModal(req);
+      openModal('admin-request-modal');
+      await loadAdminPosterVersions(req.id);
+      await loadAdminProofVersions(req.id);
+    };
+
+    function renderAdminRequestModal(req) {
+      document.getElementById('adm-view-title').textContent = req.mainHeading;
+      document.getElementById('adm-view-id').textContent = `${req.posterId || req.requestId} • Created ${formatDate(req.createdAt)}`;
+      document.getElementById('adm-view-status-badge').innerHTML = getStatusBadgeHtml(req.status);
+      document.getElementById('adm-view-priority-badge').innerHTML = getPriorityBadgeHtml(req.priority);
+      document.getElementById('adm-view-heading').textContent = req.mainHeading;
+      document.getElementById('adm-view-subheading').textContent = req.subHeading || 'No sub-heading';
+      const posterIdEl = document.getElementById('adm-view-poster-id');
+      if (posterIdEl) posterIdEl.textContent = req.posterId || req.requestId;
+      document.getElementById('adm-view-committee').textContent = req.subCommitteeName || '—';
+      document.getElementById('adm-view-creator').textContent = req.userName || '—';
+      document.getElementById('adm-view-date').textContent = formatDate(req.date);
+      document.getElementById('adm-view-deadline').textContent = formatDate(req.deadline);
+      const isAssigned = !!(req.designerId && req.designerId !== 'Unassigned' && (req.assignmentType === 'admin_assigned' || req.assignmentType === 'admin_override' || req.assignedByAdmin));
+      document.getElementById('adm-view-designer').textContent = isAssigned ? req.designerName : 'Unassigned (Awaiting Admin)';
+      document.getElementById('adm-view-asgn-type').textContent = isAssigned ? (req.assignmentType || 'admin_assigned') : 'Pending Admin Assignment';
+
+      // Designer override dropdown
+      const overrideSel = document.getElementById('override-designer-select');
+      const defaultOption = `<option value="" ${!isAssigned ? 'selected' : ''}>-- Select Designer --</option>`;
+      overrideSel.innerHTML = defaultOption + designers.map(d => `
+        <option value="${d.id}" ${isAssigned && d.id === req.designerId ? 'selected' : ''}>${d.name} (${d.username ? '@' + d.username + ' • ' : ''}${d.email})</option>
+      `).join('');
+
+      document.getElementById('change-status-select').value = req.status;
+
+      const colSub = (req.collaboration?.subCommittees || []).join(', ');
+      const colCu = (req.collaboration?.classUnions || []).join(', ');
+      let collabText = [];
+      if (colSub) collabText.push(`Wings: ${colSub}`);
+      if (colCu) collabText.push(`Classes: ${colCu}`);
+      document.getElementById('adm-view-collab').textContent = collabText.join(' | ') || 'None';
+
+      document.getElementById('adm-view-desc').textContent = req.description || 'No description provided.';
+
+      // Reference File
+      const refBox = document.getElementById('adm-view-ref-box');
+      if (req.reference && req.reference.driveUrl) {
+        refBox.style.display = 'block';
+        document.getElementById('adm-view-ref-name').textContent = req.reference.fileName || 'Ref_01';
+        document.getElementById('adm-view-ref-link').href = req.reference.webViewLink || req.reference.driveUrl;
+      } else {
+        refBox.style.display = 'none';
+      }
+
+      // Poster preview
+      const posterBox = document.getElementById('adm-view-poster-container');
+      if (req.poster && req.poster.driveUrl) {
+        const driveLink = req.poster.webViewLink || req.poster.driveUrl;
+        const downloadLink = req.poster.downloadUrl || req.poster.driveUrl;
+        posterBox.innerHTML = `
+          <img src="${req.poster.driveUrl}" alt="Current Poster" class="poster-img-display" />
+          <div style="margin-top: 0.65rem; font-size: 0.78rem; color: var(--text-muted); text-align: center;">
+            <strong style="font-family:monospace;">${req.poster.fileName}</strong> (${req.poster.currentVersion}) • Uploaded ${formatDate(req.poster.uploadedAt)}
+          </div>
+          <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+            <a href="${driveLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              Open in Drive
+            </a>
+            <a href="${downloadLink}" target="_blank" download class="btn btn-primary btn-sm">
+              Download
+            </a>
+          </div>
+        `;
+      } else {
+        posterBox.innerHTML = `<p style="font-size: 0.82rem; color: var(--text-muted); padding: 2rem 0; text-align: center;">No poster uploaded yet.</p>`;
+      }
+    }
+
+    async function loadAdminPosterVersions(reqId) {
+      const vList = document.getElementById('adm-view-versions-list');
+      try {
+        const snap = await getDocs(collection(db, 'requests', reqId, 'posterVersions'));
+        if (snap.empty) {
+          vList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">No version iterations.</p>`;
+          return;
+        }
+        const versions = snap.docs.map(d => d.data()).sort((a,b) => (b.version > a.version ? 1 : -1));
+        vList.innerHTML = versions.map(v => `
+          <div class="version-item">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <strong style="font-size: 0.85rem; font-family:monospace;">${v.fileName || v.version}</strong>
+                ${v.status === 'Final' ? '<span class="badge badge-final" style="font-size:0.65rem; padding:1px 5px;">FINAL</span>' : ''}
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                ${formatDate(v.uploadedAt)}
+              </div>
+            </div>
+            <div style="display:flex; gap:0.35rem;">
+              <a href="${v.webViewLink || v.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Drive</a>
+              <a href="${v.driveUrl}" target="_blank" download class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">View</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        vList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Could not fetch versions.</p>`;
+      }
+    }
+
+    async function loadAdminProofVersions(reqId) {
+      const pList = document.getElementById('adm-view-proofs-list');
+      try {
+        const snap = await getDocs(collection(db, 'requests', reqId, 'proofVersions'));
+        if (snap.empty) {
+          pList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">No design proofs uploaded.</p>`;
+          return;
+        }
+        const proofs = snap.docs.map(d => d.data()).sort((a,b) => (b.uploadedAt > a.uploadedAt ? 1 : -1));
+        pList.innerHTML = proofs.map(p => `
+          <div class="version-item" style="background:#fafbfc;">
+            <div>
+              <strong style="font-size: 0.85rem; font-family:monospace; color:var(--accent-purple-text);">${p.fileName}</strong>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                Uploaded ${formatDate(p.uploadedAt)}
+              </div>
+            </div>
+            <div style="display:flex; gap:0.35rem;">
+              <a href="${p.webViewLink || p.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Drive</a>
+              <a href="${p.driveUrl}" target="_blank" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Preview</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        pList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Could not fetch proofs.</p>`;
+      }
+    }
+
+    window.handleOverrideDesignerSubmit = async () => {
+      if (!activeRequest) return;
+      const sel = document.getElementById('override-designer-select');
+      const designerId = sel.value;
+      if (!designerId) {
+        showToast('Please select an available designer first.', 'error');
+        return;
+      }
+      const designerName = sel.options[sel.selectedIndex].text.split(' (')[0];
+      await adminOverrideDesigner(activeRequest.id, designerId, designerName);
+    };
+
+    window.handleChangeStatusSubmit = async () => {
+      if (!activeRequest) return;
+      const newStatus = document.getElementById('change-status-select').value;
+      await updateRequestStatus(activeRequest.id, newStatus);
+    };
+
+    window.openRevisionFromAdmin = async () => {
+      if (!activeRequest) return;
+      const reason = prompt('Enter revision instructions for the designer:');
+      if (reason && reason.trim()) {
+        await handleRequestRevision(activeRequest.id, reason.trim());
+      }
+    };
+
+    // Add User Modal
+    window.openAddUserModal = (defaultRole = 'user') => {
+      document.getElementById('add-user-form').reset();
+      document.getElementById('newu-role').value = defaultRole;
+      handleRoleChange();
+      openModal('add-user-modal');
+    };
+
+    window.handleRoleChange = () => {
+      const role = document.getElementById('newu-role').value;
+      const group = document.getElementById('newu-subcommittee-group');
+      if (group) group.style.display = role === 'user' ? 'block' : 'none';
+      const uField = document.getElementById('newu-username');
+      const uLabel = document.querySelector('label[for="newu-username"]');
+      if (role === 'designer') {
+        if (uLabel) uLabel.innerHTML = 'Designer Username <span class="required">*</span>';
+        if (uField) {
+          uField.required = true;
+          uField.placeholder = 'e.g. sarah_designs';
+        }
+      } else if (role === 'user') {
+        if (uLabel) uLabel.innerHTML = 'Username <span class="required">*</span>';
+        if (uField) {
+          uField.required = true;
+          uField.placeholder = 'e.g. media_wing';
+        }
+      } else {
+        if (uLabel) uLabel.innerHTML = 'Username (Optional)';
+        if (uField) {
+          uField.required = false;
+          uField.placeholder = 'e.g. monitor_user';
+        }
+      }
+    };
+
+    document.getElementById('add-user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const role = document.getElementById('newu-role').value;
+      const subcSelect = document.getElementById('newu-subcommittee');
+      const val = subcSelect ? subcSelect.value : '';
+      let committeeName = '';
+      let subCommitteeId = '';
+      let subCommitteeName = '';
+      let inheritedSubCommittees = [];
+      let inheritedSubCommitteeIds = [];
+
+      if (val.startsWith('parent:')) {
+        committeeName = val.substring(7);
+        const matchingSubs = subCommittees.filter(sc => sc.parentCommittee && sc.parentCommittee.trim().toLowerCase() === committeeName.toLowerCase());
+        subCommitteeName = committeeName;
+        inheritedSubCommittees = matchingSubs.map(s => s.name);
+        inheritedSubCommitteeIds = matchingSubs.map(s => s.id);
+      } else if (val.startsWith('sub:')) {
+        subCommitteeId = val.substring(4);
+        const sub = subCommittees.find(sc => sc.id === subCommitteeId);
+        if (sub) {
+          subCommitteeName = sub.name;
+          committeeName = sub.parentCommittee || '';
+          inheritedSubCommittees = [sub.name];
+          inheritedSubCommitteeIds = [sub.id];
+        }
+      }
+
+      const data = {
+        name: document.getElementById('newu-name').value.trim(),
+        username: document.getElementById('newu-username').value.trim(),
+        email: document.getElementById('newu-email').value.trim(),
+        password: document.getElementById('newu-password').value,
+        role,
+        subCommitteeId,
+        subCommitteeName,
+        committeeId: '',
+        committeeName,
+        inheritedSubCommittees,
+        inheritedSubCommitteeIds
+      };
+      const submitBtn = document.getElementById('btn-submit-add-user');
+      await adminCreateAccount(data, submitBtn);
+      closeModal('add-user-modal');
+    });
+
+    // Activity Logs timeline
+    function renderLogsTimeline(logs) {
+      const full = document.getElementById('admin-full-logs');
+      const recent = document.getElementById('dash-recent-logs');
+
+      if (!logs || logs.length === 0) {
+        const empty = `<div class="empty-state">No audit logs recorded.</div>`;
+        if (full) full.innerHTML = empty;
+        if (recent) recent.innerHTML = empty;
+        return;
+      }
+
+      const html = logs.map(l => `
+        <div class="timeline-item">
+          <div class="timeline-date">${formatDate(l.timestamp)} • <strong>${l.actorName}</strong> (${l.actorRole})</div>
+          <div class="timeline-text">${l.action}: ${l.description}</div>
+        </div>
+      `).join('');
+
+      if (full) full.innerHTML = html;
+      if (recent) recent.innerHTML = logs.slice(0, 6).map(l => `
+        <div class="timeline-item">
+          <div class="timeline-date">${formatDate(l.timestamp)} • ${l.actorName}</div>
+          <div class="timeline-text">${l.action}</div>
+        </div>
+      `).join('');
+    }
+
+    // Notifications
+    function setupNotificationsListener(profile) {
+      listenToNotifications(profile.id, (notifs) => {
+        const notifContainer = document.getElementById('admin-notifications-list');
+        if (notifContainer) {
+          if (notifs.length === 0) {
+            notifContainer.innerHTML = '<div class="empty-state">No unread notifications.</div>';
+          } else {
+            notifContainer.innerHTML = notifs.map(n => `
+              <div class="card" style="padding: 0.85rem 1rem; border-left: 3px solid ${n.read ? 'var(--border-color)' : 'var(--accent-red)'}; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.88rem;">${n.title}</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">${n.message}</div>
+                  <div style="font-size: 0.72rem; color: var(--text-light); margin-top: 4px;">${formatDate(n.createdAt)}</div>
+                </div>
+                ${!n.read ? `<button class="btn btn-secondary btn-sm" onclick="handleAdminNotificationRead('${n.id}')">Mark Read</button>` : ''}
+              </div>
+            `).join('');
+          }
+        }
+      });
+    }
+
+    window.handleAdminNotificationRead = async (id) => {
+      await markNotificationAsRead(id);
+    };
+
+    // CSV Exports
+    window.exportUsersCsv = () => exportToCsv('users', allUsers.filter(u => u.role === 'user'));
+    window.exportDesignersCsv = () => exportToCsv('designers', designers);
+    window.exportMonitorsCsv = () => exportToCsv('monitors', monitors);
+    window.exportRequestsCsv = () => exportToCsv('poster_requests', posterRequests);
+    window.exportCommitteesCsv = () => exportToCsv('sub_committees', subCommittees);
+    window.exportClassUnionsCsv = () => exportToCsv('class_unions', classUnions);
+    window.exportLogsCsv = () => exportToCsv('activity_logs', activityLogs);
+
+    // Change Password Form
+    document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const curr = document.getElementById('cp-current').value;
+      const newP = document.getElementById('cp-new').value;
+      const conf = document.getElementById('cp-confirm').value;
+      const ok = await handleChangePassword(curr, newP, conf);
+      if (ok) document.getElementById('change-password-form').reset();
+    });
+  </script>
+</body>
+</html>

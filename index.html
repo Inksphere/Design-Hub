@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Union Design Hub</title>
+  <meta name="description" content="Production-ready poster design management and collaboration portal for Union sub-committees, designers, monitors, and administrators." />
+  <meta property="og:title" content="Union Design Hub" />
+  <meta property="og:description" content="Production-ready poster design management and collaboration portal for Union sub-committees, designers, monitors, and administrators." />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-brand">
+        <div class="brand-logo-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+            <path d="M3 9h18"></path>
+            <path d="M9 21V9"></path>
+          </svg>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-title" style="font-size: 1.1rem; letter-spacing: -0.01em;">UNION DESIGN HUB</span>
+        </div>
+      </div>
+      <h2 class="auth-title">Welcome Back</h2>
+      <p class="auth-subtitle">Sign in to your design management account</p>
+    </div>
+
+    <!-- Login Form -->
+    <form id="login-form">
+      <div class="form-group">
+        <label for="login-identifier">Email or Username <span class="required">*</span></label>
+        <input
+          type="text"
+          id="login-identifier"
+          class="form-control"
+          placeholder="e.g. hashim or name@domain.com"
+          autocomplete="username"
+          required
+        />
+        <div class="form-hint">You can use your registered email or chosen unique username.</div>
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+          <label for="login-password" style="margin-bottom: 0;">Password <span class="required">*</span></label>
+          <a href="#" id="link-forgot-password" style="font-size: 0.78rem; color: var(--primary); font-weight: 600;">Forgot Password?</a>
+        </div>
+        <input
+          type="password"
+          id="login-password"
+          class="form-control"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="btn-login" style="width: 100%; margin-top: 0.75rem; padding: 0.7rem; font-weight: 700; letter-spacing: 0.03em;">
+        LOGIN
+      </button>
+    </form>
+
+    <div class="auth-divider">
+      <span>New to the Hub?</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+      <button type="button" class="btn btn-secondary" onclick="openModal('request-user-modal')" style="width: 100%;">
+        Request New User
+      </button>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('request-designer-modal')" style="width: 100%; color: var(--text-secondary);">
+        Apply to Designer 
+      </button>
+    </div>
+  </div>
+
+  <!-- REQUEST NEW USER MODAL (PART 14) -->
+  <div class="modal-backdrop" id="request-user-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Request Sub-Committee Access</h3>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Submit committee credentials for administrator approval</p>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('request-user-modal')">&times;</button>
+      </div>
+
+      <form id="request-user-form">
+        <div class="modal-body">
+          <!-- Account Information -->
+          <div style="margin-bottom: 1.25rem;">
+            <h4 style="font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.85rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border-color);">
+              1. Account Information
+            </h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+              <div class="form-group">
+                <label for="req-username">Username <span class="required">*</span></label>
+                <input type="text" id="req-username" class="form-control" placeholder="e.g. arabic_wing" pattern="^[a-zA-Z0-9_]{3,30}$" required />
+                <div class="form-hint">3-30 letters, numbers, and underscores. Globally unique.</div>
+              </div>
+              <div class="form-group">
+                <label for="req-email1">Primary Email Address <span class="required">*</span></label>
+                <input type="email" id="req-email1" class="form-control" placeholder="convenor@union.org" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="req-email2">Secondary / Alternate Email (Optional)</label>
+              <input type="email" id="req-email2" class="form-control" placeholder="chairman@union.org" />
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+              <div class="form-group">
+                <label for="req-password">Password <span class="required">*</span></label>
+                <input type="password" id="req-password" class="form-control" placeholder="Min. 6 characters" minlength="6" required />
+              </div>
+              <div class="form-group">
+                <label for="req-confirm-password">Confirm Password <span class="required">*</span></label>
+                <input type="password" id="req-confirm-password" class="form-control" placeholder="Re-enter password" minlength="6" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Committee Information -->
+          <div>
+            <h4 style="font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.85rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border-color);">
+              2. Committee Information
+            </h4>
+            <div class="form-group">
+              <label for="req-committee-name">Committee Name <span class="required">*</span></label>
+              <input type="text" id="req-committee-name" class="form-control" placeholder="e.g. Arabic Wing / Literary Association" required />
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+              <div class="form-group">
+                <label for="req-chairman">Chairman Name <span class="required">*</span></label>
+                <input type="text" id="req-chairman" class="form-control" placeholder="Full name of Chairman" required />
+              </div>
+              <div class="form-group">
+                <label for="req-convenor">Convenor Name <span class="required">*</span></label>
+                <input type="text" id="req-convenor" class="form-control" placeholder="Full name of Convenor" required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('request-user-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-user-request">Submit Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- APPLY AS DESIGNER MODAL -->
+  <div class="modal-backdrop" id="request-designer-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Apply as Designer</h3>
+        <button type="button" class="modal-close" onclick="closeModal('request-designer-modal')">&times;</button>
+      </div>
+      <form id="request-designer-form">
+        <div class="modal-body">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Join the creative team responsible for designing posters and marketing collateral.
+          </p>
+          <div class="form-group">
+            <label for="des-name">Full Name <span class="required">*</span></label>
+            <input type="text" id="des-name" class="form-control" placeholder="e.g. Sarah Khan" required />
+          </div>
+          <div class="form-group">
+            <label for="des-username">Username <span class="required">*</span></label>
+            <input type="text" id="des-username" class="form-control" placeholder="e.g. sarah_designs" pattern="^[a-zA-Z0-9_]{3,30}$" required />
+            <div class="form-hint">3-30 letters, numbers, and underscores. Globally unique.</div>
+          </div>
+          <div class="form-group">
+            <label for="des-email">Email Address <span class="required">*</span></label>
+            <input type="email" id="des-email" class="form-control" placeholder="designer@domain.com" required />
+          </div>
+          <div class="form-group">
+            <label for="des-contact">Contact Phone Number</label>
+            <input type="tel" id="des-contact" class="form-control" placeholder="+1234567890" />
+          </div>
+          <div class="form-group">
+            <label for="des-password">Password <span class="required">*</span></label>
+            <input type="password" id="des-password" class="form-control" minlength="6" required />
+          </div>
+          <div class="form-group">
+            <label for="des-confirm-password">Confirm Password <span class="required">*</span></label>
+            <input type="password" id="des-confirm-password" class="form-control" minlength="6" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('request-designer-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-designer-request">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD MODAL (EMAIL OR USERNAME) -->
+  <div class="modal-backdrop" id="forgot-password-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Reset Password</h3>
+        <button type="button" class="modal-close" onclick="closeModal('forgot-password-modal')">&times;</button>
+      </div>
+      <form id="forgot-password-form">
+        <div class="modal-body">
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Enter your account email address or registered username. We will send a secure password reset link to your registered email.
+          </p>
+          <div class="form-group">
+            <label for="fp-identifier">Email or Username <span class="required">*</span></label>
+            <input type="text" id="fp-identifier" class="form-control" placeholder="Enter username or email" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('forgot-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-fp">Send Reset Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module">
+    import {
+      initAuthListener,
+      handleLogin,
+      handleForgotPassword,
+      handleRequestNewUser,
+      handleRequestDesigner,
+      openModal,
+      closeModal
+    } from './app.js';
+
+    // Auth state listener: redirects logged-in users to their respective role dashboard
+    initAuthListener();
+
+    // Login Form Submit
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const identifier = document.getElementById('login-identifier').value.trim();
+      const pass = document.getElementById('login-password').value;
+      const btn = document.getElementById('btn-login');
+      await handleLogin(identifier, pass, btn);
+    });
+
+    // Forgot Password triggers
+    document.getElementById('link-forgot-password').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('forgot-password-form').reset();
+      openModal('forgot-password-modal');
+    });
+
+    document.getElementById('forgot-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('fp-identifier').value.trim();
+      await handleForgotPassword(id);
+    });
+
+    // Request New User Form Submit (PART 14 & 15)
+    document.getElementById('request-user-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = {
+        username: document.getElementById('req-username').value.trim(),
+        email1: document.getElementById('req-email1').value.trim(),
+        email2: document.getElementById('req-email2').value.trim(),
+        password: document.getElementById('req-password').value,
+        confirmPassword: document.getElementById('req-confirm-password').value,
+        committeeName: document.getElementById('req-committee-name').value.trim(),
+        chairman: document.getElementById('req-chairman').value.trim(),
+        convenor: document.getElementById('req-convenor').value.trim()
+      };
+      const btn = document.getElementById('btn-submit-user-request');
+      await handleRequestNewUser(formData, btn);
+    });
+
+    // Request Designer Form Submit
+    document.getElementById('request-designer-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = {
+        name: document.getElementById('des-name').value.trim(),
+        username: document.getElementById('des-username').value.trim(),
+        email: document.getElementById('des-email').value.trim(),
+        contactNumber: document.getElementById('des-contact').value.trim(),
+        password: document.getElementById('des-password').value,
+        confirmPassword: document.getElementById('des-confirm-password').value
+      };
+      const btn = document.getElementById('btn-submit-designer-request');
+      await handleRequestDesigner(formData, btn);
+    });
+  </script>
+</body>
+</html>

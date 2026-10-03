@@ -1,0 +1,26 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // Poster files: posters/{requestId}/{version}/{fileName}
+    match /posters/{requestId}/{version}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+    }
+    
+    // Reference files: references/{requestId}/{fileName}
+    match /references/{requestId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+    }
+    
+    // Proof files: proofs/{requestId}/{fileName}
+    match /proofs/{requestId}/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+    }
+  }
+}

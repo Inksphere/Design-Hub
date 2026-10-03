@@ -1,0 +1,157 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isBootstrappedAdmin() {
+      return isSignedIn() && request.auth.token.email == 'hashimtypixel@gmail.com';
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        isBootstrappedAdmin() || 
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData().role == 'admin')
+      );
+    }
+
+    function isDesigner() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData().role == 'designer';
+    }
+
+    function isMonitor() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData().role == 'monitor';
+    }
+
+    function isUser() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData().role == 'user';
+    }
+
+    // usernames collection for username-based login and uniqueness checking
+    match /usernames/{usernameNormalized} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
+    }
+
+    // emails collection for email duplicate checking and reservation
+    match /emails/{emailKey} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
+    }
+
+    // users collection
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isAdmin() || (isSignedIn() && request.auth.uid == userId);
+      allow update: if isAdmin() || (isSignedIn() && request.auth.uid == userId && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']) || isAdmin()));
+      allow delete: if isAdmin();
+    }
+
+    // designers collection
+    match /designers/{designerId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // userRequests collection (public submit, admin read/write)
+    match /userRequests/{requestId} {
+      allow create: if true;
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    // designerRequests collection (public submit, admin read/write)
+    match /designerRequests/{requestId} {
+      allow create: if true;
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    // requests collection
+    match /requests/{requestId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isAdmin();
+
+      // poster versions
+      match /posterVersions/{versionId} {
+        allow read: if isSignedIn();
+        allow create, update: if isSignedIn();
+        allow delete: if isAdmin();
+      }
+
+      // proof versions
+      match /proofVersions/{proofId} {
+        allow read: if isSignedIn();
+        allow create, update: if isSignedIn();
+        allow delete: if isAdmin();
+      }
+    }
+
+    // proofs collection (root-level proofs linked to posters)
+    match /proofs/{proofId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if isAdmin();
+    }
+
+    // wingCounters collection (increments poster and proof numbers per wing)
+    match /wingCounters/{wingCode} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if isAdmin();
+    }
+
+    // subCommittees
+    match /subCommittees/{committeeId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // classUnions
+    match /classUnions/{classUnionId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // designerAssignments
+    match /designerAssignments/{committeeId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // notifications
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // activityLogs
+    match /activityLogs/{logId} {
+      allow read: if isAdmin() || isMonitor();
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    // settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

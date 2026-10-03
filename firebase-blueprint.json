@@ -1,0 +1,258 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role and organization info",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 150 },
+        "email2": { "type": "string", "maxLength": 150 },
+        "role": { "type": "string", "enum": ["admin", "user", "designer", "monitor"] },
+        "subCommitteeId": { "type": "string", "maxLength": 100 },
+        "subCommitteeName": { "type": "string", "maxLength": 150 },
+        "chairman": { "type": "string", "maxLength": 100 },
+        "convenor": { "type": "string", "maxLength": 100 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "email", "role", "active"]
+    },
+    "Designer": {
+      "title": "Designer",
+      "description": "Designer details and assigned subcommittees",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "username": { "type": "string", "maxLength": 50 },
+        "usernameNormalized": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "format": "email", "maxLength": 150 },
+        "contactNumber": { "type": "string", "maxLength": 50 },
+        "subCommitteeId": { "type": "string", "maxLength": 100 },
+        "subCommitteeName": { "type": "string", "maxLength": 150 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "username", "email", "active"]
+    },
+    "UserRequest": {
+      "title": "UserRequest",
+      "description": "Pending membership registration for sub-committee users",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string", "maxLength": 50 },
+        "usernameNormalized": { "type": "string", "maxLength": 50 },
+        "committeeName": { "type": "string", "maxLength": 150 },
+        "chairman": { "type": "string", "maxLength": 100 },
+        "convenor": { "type": "string", "maxLength": 100 },
+        "email1": { "type": "string", "format": "email", "maxLength": 150 },
+        "email2": { "type": "string", "maxLength": 150 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["committeeName", "chairman", "convenor", "email1", "status", "createdAt"]
+    },
+    "DesignerRequest": {
+      "title": "DesignerRequest",
+      "description": "Pending membership registration for designers",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "username": { "type": "string", "maxLength": 50 },
+        "usernameNormalized": { "type": "string", "maxLength": 50 },
+        "email": { "type": "string", "format": "email", "maxLength": 150 },
+        "contactNumber": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "username", "email", "status", "createdAt"]
+    },
+    "PosterRequest": {
+      "title": "PosterRequest",
+      "description": "Main poster design task request",
+      "type": "object",
+      "properties": {
+        "requestId": { "type": "string", "maxLength": 100 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 100 },
+        "subCommitteeId": { "type": "string", "maxLength": 100 },
+        "subCommitteeName": { "type": "string", "maxLength": 150 },
+        "posterType": { "type": "string", "enum": ["Main Poster", "Poster", "Sub Poster"] },
+        "mainHeading": { "type": "string", "maxLength": 200 },
+        "subHeading": { "type": "string", "maxLength": 300 },
+        "date": { "type": "string", "maxLength": 50 },
+        "time": { "type": "string", "maxLength": 50 },
+        "venue": { "type": "string", "maxLength": 200 },
+        "collaboration": { "type": "object" },
+        "description": { "type": "string", "maxLength": 2000 },
+        "specialInstructions": { "type": "string", "maxLength": 2000 },
+        "priority": { "type": "string", "enum": ["Normal", "Urgent"] },
+        "deadline": { "type": "string", "maxLength": 50 },
+        "designerId": { "type": "string", "maxLength": 128 },
+        "designerName": { "type": "string", "maxLength": 100 },
+        "assignmentType": { "type": "string", "enum": ["automatic", "admin_override"] },
+        "status": { "type": "string", "enum": ["Submitted", "Under Review", "Assigned", "Designing", "Poster Uploaded", "Revision Required", "Final", "Completed"] },
+        "posterStatus": { "type": "string", "enum": ["Not Uploaded", "Uploaded", "Revision Required", "Final"] },
+        "poster": { "type": "object" },
+        "adminNotes": { "type": "string", "maxLength": 1000 },
+        "referenceUrl": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "updatedBy": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["requestId", "userId", "posterType", "mainHeading", "priority", "status", "posterStatus", "createdAt"]
+    },
+    "PosterVersion": {
+      "title": "PosterVersion",
+      "description": "Poster file version history",
+      "type": "object",
+      "properties": {
+        "version": { "type": "string", "maxLength": 20 },
+        "url": { "type": "string", "maxLength": 1000 },
+        "storagePath": { "type": "string", "maxLength": 500 },
+        "uploadedBy": { "type": "string", "maxLength": 128 },
+        "uploadedByName": { "type": "string", "maxLength": 100 },
+        "uploadedAt": { "type": "string" },
+        "status": { "type": "string", "maxLength": 50 },
+        "notes": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["version", "url", "storagePath", "uploadedBy", "uploadedAt"]
+    },
+    "SubCommittee": {
+      "title": "SubCommittee",
+      "description": "Sub-committee unit with assigned default designer",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 300 },
+        "defaultDesignerId": { "type": "string", "maxLength": 128 },
+        "defaultDesignerName": { "type": "string", "maxLength": 100 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "active"]
+    },
+    "ClassUnion": {
+      "title": "ClassUnion",
+      "description": "Class union entry",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 300 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "active"]
+    },
+    "DesignerAssignment": {
+      "title": "DesignerAssignment",
+      "description": "Subcommittee default designer map",
+      "type": "object",
+      "properties": {
+        "committeeId": { "type": "string", "maxLength": 100 },
+        "committeeName": { "type": "string", "maxLength": 100 },
+        "designerId": { "type": "string", "maxLength": 128 },
+        "designerName": { "type": "string", "maxLength": 100 },
+        "updatedAt": { "type": "string" },
+        "updatedBy": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["committeeId", "designerId", "updatedAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app alerts for users and designers",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 100 },
+        "message": { "type": "string", "maxLength": 500 },
+        "requestId": { "type": "string", "maxLength": 100 },
+        "type": { "type": "string", "maxLength": 50 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "title", "message", "read", "createdAt"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Audit trails of key actions",
+      "type": "object",
+      "properties": {
+        "action": { "type": "string", "maxLength": 100 },
+        "actorId": { "type": "string", "maxLength": 128 },
+        "actorName": { "type": "string", "maxLength": 100 },
+        "actorRole": { "type": "string", "maxLength": 50 },
+        "requestId": { "type": "string", "maxLength": 100 },
+        "timestamp": { "type": "string" },
+        "description": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["action", "actorName", "timestamp", "description"]
+    },
+    "SystemSetting": {
+      "title": "SystemSetting",
+      "description": "System-wide toggles and configuration",
+      "type": "object",
+      "properties": {
+        "allowRegistration": { "type": "boolean" },
+        "systemName": { "type": "string", "maxLength": 100 },
+        "maintenanceMode": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["systemName"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles with role mapping"
+    },
+    "/designers/{designerId}": {
+      "schema": { "$ref": "#/entities/Designer" },
+      "description": "Stores designer registry"
+    },
+    "/userRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/UserRequest" },
+      "description": "Public submissions for user committee access approval"
+    },
+    "/designerRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/DesignerRequest" },
+      "description": "Public submissions for designer access approval"
+    },
+    "/requests/{requestId}": {
+      "schema": { "$ref": "#/entities/PosterRequest" },
+      "description": "Poster design project requests"
+    },
+    "/requests/{requestId}/posterVersions/{versionId}": {
+      "schema": { "$ref": "#/entities/PosterVersion" },
+      "description": "Poster asset history for each request"
+    },
+    "/subCommittees/{committeeId}": {
+      "schema": { "$ref": "#/entities/SubCommittee" },
+      "description": "Active sub-committees"
+    },
+    "/classUnions/{classUnionId}": {
+      "schema": { "$ref": "#/entities/ClassUnion" },
+      "description": "Active class unions"
+    },
+    "/designerAssignments/{committeeId}": {
+      "schema": { "$ref": "#/entities/DesignerAssignment" },
+      "description": "Default designer mapping per committee"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "User notification logs"
+    },
+    "/activityLogs/{logId}": {
+      "schema": { "$ref": "#/entities/ActivityLog" },
+      "description": "System activity logs"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/SystemSetting" },
+      "description": "System settings"
+    }
+  }
+}

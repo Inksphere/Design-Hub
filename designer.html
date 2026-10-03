@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designer Studio — Union Design Hub</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation (Strict Left Aligned) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-logo-mark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+              <path d="M3 9h18"></path>
+              <path d="M9 21V9"></path>
+            </svg>
+          </div>
+          <div class="brand-text-block">
+            <span class="brand-title">UNION DESIGN HUB</span>
+            <span class="brand-subtitle">Designer Studio</span>
+          </div>
+        </div>
+        <button class="mobile-toggle" onclick="toggleSidebar()">&times;</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="tab-dashboard" onclick="switchTab('tab-dashboard')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span class="nav-text">Dashboard</span>
+        </button>
+        <button class="nav-item" data-tab="tab-assigned" onclick="switchTab('tab-assigned')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span class="nav-text">Assigned Requests</span>
+        </button>
+        <button class="nav-item" data-tab="tab-notifications" onclick="switchTab('tab-notifications')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="nav-text">Notifications</span>
+          <span id="badge-unread-count" class="badge-pill" style="display:none; background: var(--accent-red); color:#fff;">0</span>
+        </button>
+
+        <div class="nav-section-title">ACCOUNT</div>
+        <button class="nav-item" data-tab="tab-profile" onclick="switchTab('tab-profile')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span class="nav-text">Profile</span>
+        </button>
+        <button class="nav-item" onclick="openModal('change-password-modal')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span class="nav-text">Change Password</span>
+        </button>
+        <button class="nav-item" onclick="handleSignOut()" style="color: var(--accent-red);">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span class="nav-text">Sign Out</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-summary">
+          <div class="user-avatar-initials" id="user-display-avatar">D</div>
+          <div class="user-profile-info">
+            <div class="user-profile-name" id="user-display-name">Loading...</div>
+            <div class="user-profile-role">
+              <span id="user-display-role">DESIGNER</span>
+              <span id="user-display-username" style="color:var(--text-light); font-size:0.7rem;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="mobile-toggle btn-icon" onclick="toggleSidebar()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="breadcrumb-label">Studio</span>
+              <span class="breadcrumb-separator">/</span>
+              <h2 class="page-title-text" id="page-heading">Designer Workspace</h2>
+            </div>
+          </div>
+        </div>
+        <div class="top-bar-right" style="display:flex; align-items:center; gap:0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="openUploadPosterModal()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            + Upload Poster
+          </button>
+          <span class="badge badge-drive" title="Automated Drive folder structure is active">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right:4px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            Auto Drive Sync Active
+          </span>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- 1. DASHBOARD TAB (PART 8) -->
+        <section id="tab-dashboard" class="tab-pane active">
+          <!-- Statistics Cards (Part 8) -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Assigned Requests</div>
+              <div class="stat-value" id="stat-total-assigned">0</div>
+              <div class="stat-subtext">Total active roster</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Pending Designs</div>
+              <div class="stat-value" id="stat-pending">0</div>
+              <div class="stat-subtext">Awaiting initial draft</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Uploaded</div>
+              <div class="stat-value" id="stat-uploaded">0</div>
+              <div class="stat-subtext">Posters uploaded</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Revision Required</div>
+              <div class="stat-value" id="stat-revision">0</div>
+              <div class="stat-subtext">Client feedback pending</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-accent-top"></div>
+              <div class="stat-label">Final</div>
+              <div class="stat-value" id="stat-completed">0</div>
+              <div class="stat-subtext">Approved & Finished</div>
+            </div>
+          </div>
+
+          <!-- Priority & Revisions Queue -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Priority & Revision Queue</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+                  Urgent tasks, revision feedback, and upcoming deadlines
+                </p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="priority-queue-table">
+                <thead>
+                  <tr>
+                    <th>Request ID</th>
+                    <th>Language</th>
+                    <th>Sub-Committee</th>
+                    <th>Heading</th>
+                    <th>Priority</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="priority-queue-tbody">
+                  <tr><td colspan="8" class="empty-state">Loading assigned queue...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. ASSIGNED REQUESTS TAB -->
+        <section id="tab-assigned" class="tab-pane" style="display: none;">
+          <div class="card">
+            <div class="toolbar">
+              <div class="search-box">
+                <input type="text" id="assigned-search" class="form-control" placeholder="Search heading, ID, sub-committee..." onkeyup="filterAssignedList()" />
+              </div>
+              <div class="filter-group">
+                <select id="filter-assigned-status" class="form-control" onchange="filterAssignedList()">
+                  <option value="">All Statuses</option>
+                  <option value="Assigned">Assigned</option>
+                  <option value="Designing">Designing</option>
+                  <option value="Poster Uploaded">Poster Uploaded</option>
+                  <option value="Revision Required">Revision Required</option>
+                  <option value="Final">Final</option>
+                  <option value="Completed">Completed</option>
+                </select>
+                <select id="filter-assigned-priority" class="form-control" onchange="filterAssignedList()">
+                  <option value="">All Priorities</option>
+                  <option value="Normal">Normal</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table" id="assigned-requests-table">
+                <thead>
+                  <tr>
+                    <th>Poster ID</th>
+                    <th>Wing</th>
+                    <th>Sub-Committee</th>
+                    <th>Heading</th>
+                    <th>Deadline</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Current File</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="assigned-requests-tbody">
+                  <tr><td colspan="9" class="empty-state">Loading assigned requests...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. NOTIFICATIONS TAB -->
+        <section id="tab-notifications" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 800px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">Designer Notifications</h3>
+            </div>
+            <div id="notifications-list" style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <div class="empty-state">No notifications yet.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. PROFILE TAB -->
+        <section id="tab-profile" class="tab-pane" style="display: none;">
+          <div class="card" style="max-width: 640px; margin: 0 auto;">
+            <div class="card-header">
+              <h3 class="card-title">Designer Studio Profile</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem;">
+              <div><strong>Name:</strong> <span id="prof-name">—</span></div>
+              <div><strong>Username:</strong> <span id="prof-username" style="font-family: monospace; font-weight: 700; color: var(--primary);">—</span></div>
+              <div><strong>Email:</strong> <span id="prof-email">—</span></div>
+              <div><strong>Contact Number:</strong> <span id="prof-contact">—</span></div>
+              <div><strong>Account Role:</strong> <span class="badge badge-role">Designer</span></div>
+              <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <button type="button" class="btn btn-secondary" onclick="openModal('change-password-modal')">Change Password</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- DESIGNER REQUEST WORKSPACE MODAL (PARTS 31, 32, 35, 36) -->
+  <div class="modal-backdrop" id="designer-view-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <h3 class="modal-title" id="dview-title">Request Workspace</h3>
+            <span id="dview-lang-badge"></span>
+          </div>
+          <span style="font-size: 0.78rem; color: var(--text-muted);" id="dview-id">REQ-0000</span>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('designer-view-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <!-- Left: Client Specifications -->
+          <div>
+            <div style="margin-bottom: 0.75rem;">
+              <span id="dview-status-badge"></span>
+              <span id="dview-priority-badge" style="margin-left: 0.35rem;"></span>
+            </div>
+            <h4 id="dview-heading" style="font-size: 1.15rem; margin-bottom: 0.25rem;"></h4>
+            <div id="dview-subheading" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;"></div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.82rem; margin-bottom: 1rem; background: var(--bg-subtle); padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+              <div><strong>Language:</strong> <span id="dview-lang"></span></div>
+              <div><strong>Type:</strong> <span id="dview-type"></span></div>
+              <div><strong>Committee:</strong> <span id="dview-committee"></span></div>
+              <div><strong>Deadline:</strong> <span id="dview-deadline" style="color: var(--accent-red); font-weight: 700;"></span></div>
+              <div><strong>Event Date:</strong> <span id="dview-date"></span></div>
+              <div><strong>Event Time:</strong> <span id="dview-time"></span></div>
+              <div><strong>Venue:</strong> <span id="dview-venue"></span></div>
+              <div><strong>User:</strong> <span id="dview-user"></span></div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Collaboration:</strong>
+              <div id="dview-collab" style="font-size: 0.82rem; color: var(--text-muted);">None</div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Event Description:</strong>
+              <div id="dview-desc" style="font-size: 0.82rem; color: var(--text-muted); white-space: pre-wrap;"></div>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.2rem;">Special Instructions:</strong>
+              <div id="dview-instr" style="font-size: 0.82rem; color: var(--text-muted); white-space: pre-wrap;"></div>
+            </div>
+
+            <!-- Reference Document (Part 37) -->
+            <div id="dview-ref-box" style="display:none; margin-top: 1rem; padding: 0.75rem; background: #fafbfc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+              <strong style="font-size: 0.82rem; display: block; margin-bottom: 0.35rem;">Client Reference File (Reference/Ref_XX):</strong>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span id="dview-ref-name" style="font-size:0.8rem; font-family:monospace;">Ref_01</span>
+                <a href="#" id="dview-ref-link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  Open Reference
+                </a>
+              </div>
+            </div>
+
+            <!-- Workflow Status Toggle -->
+            <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color);">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="markAsDesigning()">
+                Mark Status: "Designing"
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Poster & Proof Upload Actions (Part 31, 32, 35, 36) -->
+          <div>
+            <!-- Latest Poster Artwork -->
+            <div class="poster-preview-card" style="margin-bottom: 1rem;">
+              <strong style="display: block; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: left;">Current Poster Artwork (Posters/{Committee})</strong>
+              <div id="dview-poster-container">
+                <p style="font-size: 0.82rem; color: var(--text-muted); padding: 2rem 0; text-align: center;">No poster uploaded yet.</p>
+              </div>
+            </div>
+
+            <!-- Committee Proofs Section (View-only for Designer) -->
+            <div class="card" style="padding: 0.85rem; margin-bottom: 1rem;">
+              <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.4rem;">
+                <strong style="font-size: 0.85rem;">Committee Proofs</strong>
+                <span style="font-size: 0.72rem; color: var(--text-muted); display: block;">Uploaded by Committee</span>
+              </div>
+              <div id="dview-proofs-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 140px; overflow-y: auto;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">No committee proofs uploaded.</p>
+              </div>
+            </div>
+
+            <!-- Poster Version Iterations (Part 35) -->
+            <div class="card" style="padding: 0.85rem;">
+              <div class="card-header" style="margin-bottom: 0.5rem; padding-bottom: 0.4rem;">
+                <strong style="font-size: 0.85rem;">Poster Version History</strong>
+                <button type="button" class="btn btn-primary btn-sm" onclick="openUploadPosterModal()">+ Upload Poster</button>
+              </div>
+              <div id="dview-versions-list" style="display: flex; flex-direction: column; gap: 0.4rem; max-height: 160px; overflow-y: auto;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">No prior versions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('designer-view-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPLOAD POSTER MODAL (PART 31, 32, 35) -->
+  <div class="modal-backdrop" id="upload-poster-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="upload-poster-modal-title">Upload Poster Version</h3>
+        <button type="button" class="modal-close" onclick="closeModal('upload-poster-modal')">&times;</button>
+      </div>
+      <form id="upload-poster-form">
+        <div class="modal-body">
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">
+            The file is automatically renamed (<span id="preview-poster-filename" style="font-family:monospace; font-weight:700; color:var(--text-main);">wing_pos_XX</span>) and archived under <span id="preview-poster-folder" style="font-family:monospace; font-weight:600;">Posters/General</span> in Google Drive. Prior versions are never overwritten.
+          </p>
+
+          <div class="form-group">
+            <label for="upload-poster-file">Artwork File <span class="required">*</span></label>
+            <input type="file" id="upload-poster-file" class="form-control" accept="image/*,.pdf" required />
+            <div class="form-hint">Accepted: PNG, JPG, JPEG, WebP, PDF. Max 25MB.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="upload-poster-notes">Version Notes (Optional)</label>
+            <textarea id="upload-poster-notes" class="form-control" rows="2" placeholder="e.g. Adjusted typography, corrected dates, refined contrast..."></textarea>
+          </div>
+
+          <div class="form-group" style="margin-top: 1rem;">
+            <label class="checkbox-item">
+              <input type="checkbox" id="upload-poster-is-final" />
+              <span style="font-weight: 700; color: var(--accent-emerald-text);">Mark as Final Approved Artwork</span>
+            </label>
+            <div class="form-hint" style="margin-left: 1.6rem;">Sets request status to "Final".</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('upload-poster-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-upload-poster">Upload to Google Drive</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CHANGE PASSWORD MODAL -->
+  <div class="modal-backdrop" id="change-password-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button type="button" class="modal-close" onclick="closeModal('change-password-modal')">&times;</button>
+      </div>
+      <form id="change-password-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cp-current">Current Password <span class="required">*</span></label>
+            <input type="password" id="cp-current" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="cp-new">New Password <span class="required">*</span></label>
+            <input type="password" id="cp-new" class="form-control" required minlength="6" />
+          </div>
+          <div class="form-group">
+            <label for="cp-confirm">Confirm New Password <span class="required">*</span></label>
+            <input type="password" id="cp-confirm" class="form-control" required minlength="6" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('change-password-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-change-password">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module">
+    import {
+      initAuthListener,
+      handleSignOut,
+      uploadPosterVersion,
+      updateRequestStatus,
+      handleChangePassword,
+      getStatusBadgeHtml,
+      getPriorityBadgeHtml,
+      getLanguageBadgeHtml,
+      formatDate,
+      showToast,
+      openModal,
+      closeModal,
+      listenToNotifications,
+      markNotificationAsRead
+    } from './app.js';
+    import { db, collection, query, where, orderBy, onSnapshot, getDocs, doc, getDoc } from './firebase.js';
+
+    let assignedRequests = [];
+    let activeRequest = null;
+    let currentProfile = null;
+
+    window.toggleSidebar = () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    };
+
+    window.switchTab = (tabId) => {
+      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.style.display = 'block';
+
+      const navBtn = document.querySelector(`.nav-item[data-tab="${tabId}"]`);
+      if (navBtn) navBtn.classList.add('active');
+
+      const headings = {
+        'tab-dashboard': 'Designer Workspace',
+        'tab-assigned': 'Assigned Requests',
+        'tab-notifications': 'Notifications',
+        'tab-profile': 'Designer Profile'
+      };
+      document.getElementById('page-heading').textContent = headings[tabId] || 'Workspace';
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    };
+
+    // Initialize Auth Guard
+    initAuthListener('designer');
+
+    window.onAppReady = (profile) => {
+      currentProfile = profile;
+      populateProfileUI(profile);
+      setupDesignerRequestsListener(profile);
+      setupNotificationsListener(profile);
+    };
+
+    function populateProfileUI(profile) {
+      if (document.getElementById('prof-name')) document.getElementById('prof-name').textContent = profile.name || '—';
+      const uname = profile.username || profile.usernameNormalized;
+      if (document.getElementById('prof-username')) document.getElementById('prof-username').textContent = uname ? `@${uname}` : '—';
+      if (document.getElementById('prof-email')) document.getElementById('prof-email').textContent = profile.email || '—';
+      if (document.getElementById('prof-contact')) document.getElementById('prof-contact').textContent = profile.contactNumber || 'Not provided';
+      if (document.getElementById('user-display-username')) document.getElementById('user-display-username').textContent = uname ? `@${uname}` : '';
+    }
+
+    // Real-time listener for requests assigned to this designer or pending assignment
+    function setupDesignerRequestsListener(profile) {
+      const myId = profile.id || auth.currentUser?.uid;
+      const myUsername = (profile.username || '').toLowerCase();
+      const myEmail = (profile.email || '').toLowerCase();
+
+      onSnapshot(collection(db, 'requests'), (snapshot) => {
+        const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        // Include ONLY requests explicitly assigned to this designer by Admin
+        assignedRequests = all.filter(r => {
+          // Unassigned requests and automatic assignments must NOT appear to any designer
+          if (!r.designerId || r.designerId === 'Unassigned' || r.designerName === 'Unassigned') {
+            return false;
+          }
+          if (r.assignmentType === 'automatic') {
+            return false;
+          }
+          // Only the Admin-selected Designer receives the request
+          return r.designerId === myId ||
+                 r.designerId === auth.currentUser?.uid ||
+                 (myUsername && r.designerUsername && r.designerUsername.toLowerCase() === myUsername) ||
+                 (myEmail && r.designerEmail && r.designerEmail.toLowerCase() === myEmail);
+        }).sort((a,b) => {
+          const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dbTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dbTime - da;
+        });
+
+        updateDashboardStats(assignedRequests);
+        renderPriorityQueue(assignedRequests);
+        renderAssignedTable(assignedRequests);
+
+        if (activeRequest) {
+          const fresh = assignedRequests.find(r => r.id === activeRequest.id);
+          if (fresh) {
+            activeRequest = fresh;
+            renderRequestDetailsModal(fresh);
+          }
+        }
+      }, (err) => {
+        console.error('Error fetching designer requests:', err);
+      });
+    }
+
+    function updateDashboardStats(requests) {
+      const total = requests.length;
+      const pending = requests.filter(r => r.status === 'Assigned' || r.status === 'Submitted' || r.status === 'Under Review').length;
+      const uploaded = requests.filter(r => r.status === 'Poster Uploaded' || r.status === 'Designing').length;
+      const revision = requests.filter(r => r.status === 'Revision Required').length;
+      const completed = requests.filter(r => r.status === 'Final' || r.status === 'Completed').length;
+
+      document.getElementById('stat-total-assigned').textContent = total;
+      document.getElementById('stat-pending').textContent = pending;
+      document.getElementById('stat-uploaded').textContent = uploaded;
+      document.getElementById('stat-revision').textContent = revision;
+      document.getElementById('stat-completed').textContent = completed;
+    }
+
+    function renderPriorityQueue(requests) {
+      const queueTbody = document.getElementById('priority-queue-tbody');
+      if (!queueTbody) return;
+
+      const priorityItems = requests.filter(r => r.priority === 'Urgent' || r.status === 'Revision Required' || r.status === 'Assigned' || r.status === 'Submitted' || r.status === 'Under Review').slice(0, 8);
+
+      if (priorityItems.length === 0) {
+        queueTbody.innerHTML = `<tr><td colspan="8" class="empty-state">No urgent items or revisions in queue. Excellent job!</td></tr>`;
+        return;
+      }
+
+      queueTbody.innerHTML = priorityItems.map(r => `
+        <tr>
+          <td><strong style="font-family:monospace;">${r.posterId || r.requestId}</strong></td>
+          <td><span class="badge" style="background:#e0e7ff; color:#3730a3; font-family:monospace;">${r.wingCode || (r.subCommitteeName ? r.subCommitteeName.slice(0,3).toLowerCase() : 'gen')}</span></td>
+          <td>${r.subCommitteeName || '—'}</td>
+          <td style="font-weight: 600;">${r.mainHeading}</td>
+          <td>${getPriorityBadgeHtml(r.priority)}</td>
+          <td>${formatDate(r.deadline)}</td>
+          <td>${getStatusBadgeHtml(r.status)}</td>
+          <td>
+            <div style="display:flex; gap:0.35rem;">
+              <button class="btn btn-secondary btn-sm" onclick="viewRequestDetails('${r.id}')">Workspace</button>
+              <button class="btn btn-primary btn-sm" onclick="openUploadPosterModal('${r.id}')">+ Upload</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAssignedTable(requests) {
+      const allTbody = document.getElementById('assigned-requests-tbody');
+      if (!allTbody) return;
+
+      if (requests.length === 0) {
+        allTbody.innerHTML = `<tr><td colspan="9" class="empty-state">No requests assigned yet.</td></tr>`;
+        return;
+      }
+
+      allTbody.innerHTML = requests.map(r => `
+        <tr>
+          <td><strong style="font-family:monospace;">${r.posterId || r.requestId}</strong></td>
+          <td><span class="badge" style="background:#e0e7ff; color:#3730a3; font-family:monospace;">${r.wingCode || (r.subCommitteeName ? r.subCommitteeName.slice(0,3).toLowerCase() : 'gen')}</span></td>
+          <td>${r.subCommitteeName || '—'}</td>
+          <td style="font-weight: 600;">${r.mainHeading}</td>
+          <td>${formatDate(r.deadline)}</td>
+          <td>${getPriorityBadgeHtml(r.priority)}</td>
+          <td>${getStatusBadgeHtml(r.status)}</td>
+          <td>
+            ${r.poster?.fileName ? `<span class="badge badge-drive">${r.poster.fileName}</span>` : '<span style="color:var(--text-light)">None</span>'}
+          </td>
+          <td>
+            <div style="display:flex; gap:0.35rem;">
+              <button class="btn btn-secondary btn-sm" onclick="viewRequestDetails('${r.id}')">Workspace</button>
+              <button class="btn btn-primary btn-sm" onclick="openUploadPosterModal('${r.id}')">+ Upload</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.filterAssignedList = () => {
+      const q = (document.getElementById('assigned-search')?.value || '').toLowerCase();
+      const status = document.getElementById('filter-assigned-status')?.value || '';
+      const priority = document.getElementById('filter-assigned-priority')?.value || '';
+
+      const filtered = assignedRequests.filter(r => {
+        const matchQ = (r.mainHeading || '').toLowerCase().includes(q) || (r.posterId || '').toLowerCase().includes(q) || (r.requestId || '').toLowerCase().includes(q) || (r.subCommitteeName || '').toLowerCase().includes(q);
+        const matchStatus = !status || r.status === status;
+        const matchPriority = !priority || r.priority === priority;
+        return matchQ && matchStatus && matchPriority;
+      });
+
+      renderAssignedTable(filtered);
+    };
+
+    // Open Request Details in Designer Workspace
+    window.viewRequestDetails = async (id) => {
+      const req = assignedRequests.find(r => r.id === id);
+      if (!req) return;
+      activeRequest = req;
+      renderRequestDetailsModal(req);
+      openModal('designer-view-modal');
+      await loadPosterVersions(req.id);
+      await loadProofVersions(req.id);
+    };
+
+    function renderRequestDetailsModal(req) {
+      document.getElementById('dview-title').textContent = req.mainHeading;
+      document.getElementById('dview-id').textContent = `${req.posterId || req.requestId} • Created ${formatDate(req.createdAt)}`;
+      document.getElementById('dview-lang-badge').innerHTML = `<span class="badge" style="background:#e0e7ff; color:#3730a3; font-family:monospace;">${req.wingCode || (req.subCommitteeName ? req.subCommitteeName.slice(0,3).toLowerCase() : 'gen')}</span>`;
+      document.getElementById('dview-status-badge').innerHTML = getStatusBadgeHtml(req.status);
+      document.getElementById('dview-priority-badge').innerHTML = getPriorityBadgeHtml(req.priority);
+      document.getElementById('dview-heading').textContent = req.mainHeading;
+      document.getElementById('dview-subheading').textContent = req.subHeading || 'No sub-heading';
+      if (document.getElementById('dview-lang')) document.getElementById('dview-lang').textContent = req.wingCode || '—';
+      document.getElementById('dview-type').textContent = req.posterType || 'Main Poster';
+      document.getElementById('dview-committee').textContent = req.subCommitteeName || '—';
+      document.getElementById('dview-deadline').textContent = formatDate(req.deadline);
+      document.getElementById('dview-date').textContent = formatDate(req.date);
+      document.getElementById('dview-time').textContent = req.time || '—';
+      document.getElementById('dview-venue').textContent = req.venue || '—';
+      document.getElementById('dview-user').textContent = req.userName || '—';
+
+      const colSub = (req.collaboration?.subCommittees || []).join(', ');
+      const colCu = (req.collaboration?.classUnions || []).join(', ');
+      let collabText = [];
+      if (colSub) collabText.push(`Wings: ${colSub}`);
+      if (colCu) collabText.push(`Classes: ${colCu}`);
+      document.getElementById('dview-collab').textContent = collabText.join(' | ') || 'None';
+
+      document.getElementById('dview-desc').textContent = req.description || 'No description provided.';
+      document.getElementById('dview-instr').textContent = req.specialInstructions || 'None';
+
+      // Reference File (Part 37)
+      const refBox = document.getElementById('dview-ref-box');
+      if (req.reference && req.reference.driveUrl) {
+        refBox.style.display = 'block';
+        document.getElementById('dview-ref-name').textContent = req.reference.fileName || 'Ref_01';
+        document.getElementById('dview-ref-link').href = req.reference.webViewLink || req.reference.driveUrl;
+      } else {
+        refBox.style.display = 'none';
+      }
+
+      // Latest Artwork Preview
+      const posterBox = document.getElementById('dview-poster-container');
+      if (req.poster && req.poster.driveUrl) {
+        const driveLink = req.poster.webViewLink || req.poster.driveUrl;
+        const downloadLink = req.poster.downloadUrl || req.poster.driveUrl;
+        posterBox.innerHTML = `
+          <img src="${req.poster.driveUrl}" alt="Current Poster" class="poster-img-display" />
+          <div style="margin-top: 0.65rem; font-size: 0.78rem; color: var(--text-muted); text-align: center;">
+            <strong style="font-family:monospace;">${req.poster.fileName}</strong> (${req.poster.currentVersion}) • Uploaded ${formatDate(req.poster.uploadedAt)}
+          </div>
+          <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+            <a href="${driveLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              Open in Drive
+            </a>
+            <a href="${downloadLink}" target="_blank" download class="btn btn-primary btn-sm">
+              Download
+            </a>
+          </div>
+        `;
+      } else {
+        posterBox.innerHTML = `<p style="font-size: 0.82rem; color: var(--text-muted); padding: 2rem 0; text-align: center;">No poster uploaded yet. Upload version 1 below.</p>`;
+      }
+    }
+
+    async function loadPosterVersions(reqId) {
+      const vList = document.getElementById('dview-versions-list');
+      try {
+        const snap = await getDocs(collection(db, 'requests', reqId, 'posterVersions'));
+        if (snap.empty) {
+          vList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">No version iterations yet.</p>`;
+          return;
+        }
+        const versions = snap.docs.map(d => d.data()).sort((a,b) => (b.version > a.version ? 1 : -1));
+        vList.innerHTML = versions.map(v => `
+          <div class="version-item">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <strong style="font-size: 0.85rem; font-family:monospace;">${v.fileName || v.version}</strong>
+                ${v.status === 'Final' ? '<span class="badge badge-final" style="font-size:0.65rem; padding:1px 5px;">FINAL</span>' : ''}
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                ${formatDate(v.uploadedAt)}
+              </div>
+              ${v.notes ? `<div style="font-size: 0.75rem; color: var(--text-main); margin-top: 2px;">Note: ${v.notes}</div>` : ''}
+            </div>
+            <div style="display:flex; gap:0.35rem;">
+              <a href="${v.webViewLink || v.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Drive</a>
+              <a href="${v.driveUrl}" target="_blank" download class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">View</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        vList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Could not fetch versions.</p>`;
+      }
+    }
+
+    async function loadProofVersions(reqId) {
+      const pList = document.getElementById('dview-proofs-list');
+      try {
+        const snap = await getDocs(collection(db, 'requests', reqId, 'proofVersions'));
+        if (snap.empty) {
+          pList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">No committee proofs uploaded.</p>`;
+          return;
+        }
+        const proofs = snap.docs.map(d => d.data()).sort((a,b) => (b.uploadedAt > a.uploadedAt ? 1 : -1));
+        pList.innerHTML = proofs.map(p => `
+          <div class="version-item" style="background:#fafbfc;">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <strong style="font-size: 0.85rem; font-family:monospace; color:var(--accent-purple-text);">${p.proofId || p.fileName}</strong>
+                <span class="badge badge-designing" style="font-size:0.65rem; padding:1px 5px;">PROOF</span>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                Uploaded ${formatDate(p.uploadedAt)} by ${p.uploadedByName || 'Committee'}
+              </div>
+              ${p.notes ? `<div style="font-size: 0.75rem; color: var(--text-main); margin-top: 2px;">Notes: ${p.notes}</div>` : ''}
+            </div>
+            <div style="display:flex; gap:0.35rem;">
+              <a href="${p.webViewLink || p.driveUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Drive</a>
+              <a href="${p.driveUrl}" target="_blank" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">Preview</a>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        pList.innerHTML = `<p style="font-size:0.8rem; color:var(--text-muted);">Could not fetch proofs.</p>`;
+      }
+    }
+
+    window.markAsDesigning = async () => {
+      if (!activeRequest) return;
+      await updateRequestStatus(activeRequest.id, 'Designing');
+    };
+
+    // Poster Upload Modal Triggers (Requirement: Designers can open & upload posters)
+    window.openUploadPosterModal = (id) => {
+      let target = activeRequest;
+      if (id) {
+        target = assignedRequests.find(r => r.id === id || r.posterId === id || r.requestId === id);
+        if (target) activeRequest = target;
+      }
+      if (!target) {
+        if (assignedRequests.length > 0) {
+          target = assignedRequests[0];
+          activeRequest = target;
+        } else {
+          showToast('No poster requests available to upload artwork for.', 'info');
+          return;
+        }
+      }
+      const posterId = target.posterId || target.requestId || target.id || 'pos_01';
+      const previewFn = document.getElementById('preview-poster-filename');
+      if (previewFn) previewFn.textContent = `${posterId}.png`;
+      const previewFolder = document.getElementById('preview-poster-folder');
+      if (previewFolder) previewFolder.textContent = `Posters/${target.subCommitteeName || 'General'}`;
+      const modalTitle = document.getElementById('upload-poster-modal-title');
+      if (modalTitle) modalTitle.textContent = `Upload Poster Artwork (${posterId})`;
+
+      const form = document.getElementById('upload-poster-form');
+      if (form) form.reset();
+      openModal('upload-poster-modal');
+    };
+
+    // Submit Poster Upload
+    document.getElementById('upload-poster-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!activeRequest) {
+        showToast('Please select a request first.', 'error');
+        return;
+      }
+      const fileInput = document.getElementById('upload-poster-file');
+      if (!fileInput.files || fileInput.files.length === 0) {
+        showToast('Please select a file to upload.', 'error');
+        return;
+      }
+      const file = fileInput.files[0];
+      const notes = document.getElementById('upload-poster-notes').value.trim();
+      const isFinal = document.getElementById('upload-poster-is-final').checked;
+      const submitBtn = document.getElementById('btn-submit-upload-poster');
+
+      try {
+        await uploadPosterVersion(activeRequest.id, file, notes, isFinal, submitBtn);
+        // Refresh version history in workspace modal if active
+        await loadPosterVersions(activeRequest.id);
+        const reqRef = doc(db, 'requests', activeRequest.id);
+        const freshSnap = await getDoc(reqRef);
+        if (freshSnap.exists()) {
+          activeRequest = { id: freshSnap.id, ...freshSnap.data() };
+          renderRequestDetailsModal(activeRequest);
+        }
+      } catch (err) {
+        console.error('Error submitting poster:', err);
+      }
+    });
+
+    // Change Password Form
+    document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const curr = document.getElementById('cp-current').value;
+      const newP = document.getElementById('cp-new').value;
+      const conf = document.getElementById('cp-confirm').value;
+      const ok = await handleChangePassword(curr, newP, conf);
+      if (ok) document.getElementById('change-password-form').reset();
+    });
+
+    // Notifications
+    function setupNotificationsListener(profile) {
+      listenToNotifications(profile.id, (notifs) => {
+        const unreadCount = notifs.filter(n => !n.read).length;
+        const badge = document.getElementById('badge-unread-count');
+        if (badge) {
+          badge.textContent = unreadCount;
+          badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+        }
+        const notifContainer = document.getElementById('notifications-list');
+        if (notifContainer) {
+          if (notifs.length === 0) {
+            notifContainer.innerHTML = '<div class="empty-state">No notifications yet.</div>';
+          } else {
+            notifContainer.innerHTML = notifs.map(n => `
+              <div class="card" style="padding: 0.85rem 1rem; border-left: 3px solid ${n.read ? 'var(--border-color)' : 'var(--accent-red)'}; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.88rem;">${n.title}</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">${n.message}</div>
+                  <div style="font-size: 0.72rem; color: var(--text-light); margin-top: 4px;">${formatDate(n.createdAt)}</div>
+                </div>
+                ${!n.read ? `<button class="btn btn-secondary btn-sm" onclick="handleNotificationRead('${n.id}')">Mark Read</button>` : ''}
+              </div>
+            `).join('');
+          }
+        }
+      });
+    }
+
+    window.handleNotificationRead = async (id) => {
+      await markNotificationAsRead(id);
+    };
+  </script>
+</body>
+</html>
